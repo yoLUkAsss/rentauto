@@ -11,3 +11,8 @@ class Reserva {
 	Date fin
 	Auto auto
 }
+
+@Accessors 
+class ReservaEmpresarial {
+	String cuil
+}
