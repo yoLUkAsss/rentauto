@@ -3,8 +3,10 @@ package ar.edu.unq.epers.model
 import java.util.Date
 import org.eclipse.xtend.lib.annotations.Accessors
 import static ar.edu.unq.epers.extensions.DateExtensions.*
+import org.joda.time.DateTime
+import org.joda.time.Days
 
-@Accessors 
+@Accessors
 class Reserva {
 	Integer numeroSolicitud
 	Ubicacion origen
@@ -13,6 +15,11 @@ class Reserva {
 	Date fin
 	Auto auto
 	IUsuario usuario
+
+	def costo() {
+		val cantidadDeDias = Days.daysBetween(new DateTime(inicio), new DateTime(fin)).days
+		return cantidadDeDias * auto.costoTotal;
+	}
 	
 	def void validar(){
 		val ubicacionInicial = auto.ubicacionParaDia(inicio)
@@ -48,6 +55,7 @@ class Reserva {
 		this.usuario.agregarReserva(this)
 	}
 }
+
 
 @Accessors 
 class ReservaEmpresarial extends Reserva{
