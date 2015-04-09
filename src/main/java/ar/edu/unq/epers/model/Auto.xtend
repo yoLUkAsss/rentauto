@@ -35,4 +35,8 @@ class Auto {
 		reservas.sortInplaceBy[inicio]
 	}
 	
+	def costoTotal(){
+		return categoria.calcularCosto(this)
+	}
+	
 }
