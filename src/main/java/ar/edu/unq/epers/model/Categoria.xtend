@@ -5,5 +5,8 @@ import org.eclipse.xtend.lib.annotations.Accessors
 @Accessors 
 class Categoria {
 	String nombre
-	double porcentaje
 }
+
+class Familiar extends Categoria {
+	
+} 
