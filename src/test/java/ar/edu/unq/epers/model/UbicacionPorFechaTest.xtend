@@ -3,6 +3,7 @@ package ar.edu.unq.epers.model
 import org.junit.Test
 
 import static org.junit.Assert.*
+import static ar.edu.unq.epers.extensions.DateExtensions.*
 
 class UbicacionPorFechaTest extends AbstractTest {
 		
@@ -13,14 +14,15 @@ class UbicacionPorFechaTest extends AbstractTest {
 	
 	@Test
 	def ubicacionUnaReserva(){
-		val reserva = new Reserva => [
+		new Reserva => [
 			origen = retiro
 			destino = aeroparque
 			inicio = nuevaFecha(2015,03,01)
 			fin = nuevaFecha(2015,03,05)
 			it.auto = this.auto
+			it.usuario = usuarioPrueba
+			reservar()
 		]
-		auto.agregarReserva(reserva)
 		
 		assertEquals(retiro, auto.ubicacionParaDia(nuevaFecha(2015,02,28)))
 		assertEquals(retiro, auto.ubicacionParaDia(nuevaFecha(2015,03,01)))
@@ -33,21 +35,25 @@ class UbicacionPorFechaTest extends AbstractTest {
 
 	@Test
 	def ubicacionDosReservas(){
-		auto.agregarReserva(new Reserva => [
+		new Reserva => [
 			origen = retiro
 			destino = aeroparque
 			inicio = nuevaFecha(2015,03,01)
 			fin = nuevaFecha(2015,03,05)
 			it.auto = this.auto
-		])
+			it.usuario = usuarioPrueba
+			reservar()
+		]
 
-		auto.agregarReserva(new Reserva => [
+		new Reserva => [
 			origen = aeroparque
 			destino = retiro
 			inicio = nuevaFecha(2015,03,06)
 			fin = nuevaFecha(2015,03,10)
 			it.auto = this.auto
-		])
+			it.usuario = usuarioPrueba
+			reservar()
+		]
 		
 		assertEquals(retiro, auto.ubicacionParaDia(nuevaFecha(2015,02,28)))
 		assertEquals(retiro, auto.ubicacionParaDia(nuevaFecha(2015,03,1)))

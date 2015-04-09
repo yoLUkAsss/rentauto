@@ -2,6 +2,7 @@ package ar.edu.unq.epers.model
 
 import java.util.Date
 import org.eclipse.xtend.lib.annotations.Accessors
+import static ar.edu.unq.epers.extensions.DateExtensions.*
 
 @Accessors 
 class Reserva {
@@ -23,6 +24,10 @@ class Reserva {
 			throw new ReservaException("El auto no esta libre en el periodo pedido")
 	}
 	
+	def isActiva(){
+		inicio <= hoy && hoy <= fin
+	}
+	
 	def seSuperpone(Date desde, Date hasta){
 		if(inicio <= desde && desde <= fin )
 			return true
@@ -33,6 +38,15 @@ class Reserva {
 			
 		return false	
 	}
+	
+	def costoPorDia(){
+		return 0
+	}
+	
+	def reservar(){
+		this.auto.agregarReserva(this)
+		this.usuario.agregarReserva(this)
+	}
 }
 
 @Accessors 
@@ -40,6 +54,11 @@ class ReservaEmpresarial extends Reserva{
 	Empresa empresa
 	String nombreContacto
 	String cargoContacto
+	
+	override reservar(){
+		super.reservar()
+		this.empresa.agregarReserva(this)
+	}
 }
 
 class ReservaException extends RuntimeException{
