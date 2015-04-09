@@ -15,7 +15,7 @@ class Turismo extends Categoria{
 		if(auto.año > 2000){
 			return auto.costoBase * 1.10			
 		}else{
-			return auto.costoBase * 0.90
+			return auto.costoBase - 200
 		}
 	}
 }
