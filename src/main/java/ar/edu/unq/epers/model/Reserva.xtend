@@ -18,5 +18,4 @@ class ReservaEmpresarial {
 	String cuil
 	String nombreContacto
 	String cargoContacto
-	String
 }
