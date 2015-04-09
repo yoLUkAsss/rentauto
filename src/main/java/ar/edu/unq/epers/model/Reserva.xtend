@@ -7,6 +7,7 @@ import org.joda.time.Days
 
 @Accessors
 class Reserva {
+	Integer numeroSolicitud
 	Ubicacion origen
 	Ubicacion destino
 	Date inicio
@@ -18,7 +19,10 @@ class Reserva {
 	}
 }
 
-@Accessors
-class ReservaEmpresarial {
-	String cuil
+
+@Accessors 
+class ReservaEmpresarial extends Reserva{
+	Empresa empresa
+	String nombreContacto
+	String cargoContacto
 }
