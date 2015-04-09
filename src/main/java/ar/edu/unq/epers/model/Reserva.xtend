@@ -10,9 +10,13 @@ class Reserva {
 	Date inicio
 	Date fin
 	Auto auto
+	Usuario usuario
 }
 
 @Accessors 
 class ReservaEmpresarial {
 	String cuil
+	String nombreContacto
+	String cargoContacto
+	String
 }
