@@ -5,17 +5,18 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors 
 class Reserva {
+	Integer numeroSolicitud
 	Ubicacion origen
 	Ubicacion destino
 	Date inicio
 	Date fin
 	Auto auto
-	Usuario usuario
+	IUsuario usuario
 }
 
 @Accessors 
-class ReservaEmpresarial {
-	String cuil
+class ReservaEmpresarial extends Reserva{
+	Empresa empresa
 	String nombreContacto
 	String cargoContacto
 }
