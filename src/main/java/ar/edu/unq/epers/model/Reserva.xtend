@@ -13,6 +13,7 @@ class Reserva {
 	Date inicio
 	Date fin
 	Auto auto
+	IUsuario usuario
 
 	def double costoTotal() {
 		return Days.daysBetween(new DateTime(inicio), new DateTime(fin)).days;
