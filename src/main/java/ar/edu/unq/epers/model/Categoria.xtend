@@ -41,5 +41,3 @@ class TodoTerreno extends Categoria{
 		auto.costoBase * 1.10
 	}
 }
-
-

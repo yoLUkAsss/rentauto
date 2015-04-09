@@ -17,12 +17,22 @@ class Auto {
 	List<Reserva> reservas = newArrayList()
 	Ubicacion ubicacionInicial
 
+	new(String marca, String modelo, Integer anio, String patente, Categoria categoria, Double costoBase, Ubicacion ubicacionInicial){
+		this.marca = marca
+		this.modelo = modelo
+		this.año = anio
+		this.patente = patente
+		this.costoBase = costoBase
+		this.categoria = categoria
+		this.ubicacionInicial = ubicacionInicial
+	}
+
 	def getUbicacion(){
 		this.ubicacionParaDia(new Date());
 	}
 	
 	def ubicacionParaDia(Date unDia){
-		val encontrado = reservas.findFirst [ it.fin.compareTo(unDia) <= 0 ]
+		val encontrado = reservas.findLast[ it.fin <= unDia ]
 		if(encontrado != null){
 			return encontrado.destino
 		}else{
@@ -30,7 +40,12 @@ class Auto {
 		}
 	}
 	
+	def Boolean estaLibre(Date desde, Date hasta){
+		reservas.forall[ !seSuperpone(desde,hasta) ]
+	}
+	
 	def agregarReserva(Reserva reserva){
+		reserva.validar
 		reservas.add(reserva)
 		reservas.sortInplaceBy[inicio]
 	}

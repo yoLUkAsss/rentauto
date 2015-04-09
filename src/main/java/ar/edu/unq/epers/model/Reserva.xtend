@@ -19,6 +19,27 @@ class Reserva {
 		val cantidadDeDias = Days.daysBetween(new DateTime(inicio), new DateTime(fin)).days
 		return cantidadDeDias * auto.costoTotal;
 	}
+	
+	def void validar(){
+		val ubicacionInicial = auto.ubicacionParaDia(inicio)
+		
+		if(ubicacionInicial != origen)
+			throw new ReservaException("El auto no tiene la ubicación de origen buscada")
+		
+		if(!auto.estaLibre(inicio, fin))
+			throw new ReservaException("El auto no esta libre en el periodo pedido")
+	}
+	
+	def seSuperpone(Date desde, Date hasta){
+		if(inicio <= desde && desde <= fin )
+			return true
+		if(inicio <= hasta && hasta <= fin )
+			return true
+		if(desde <= inicio && fin <= hasta)
+			return true
+			
+		return false	
+	}
 }
 
 
@@ -27,4 +48,10 @@ class ReservaEmpresarial extends Reserva{
 	Empresa empresa
 	String nombreContacto
 	String cargoContacto
+}
+
+class ReservaException extends RuntimeException{
+	new(String msg){
+		super(msg)
+	}
 }
