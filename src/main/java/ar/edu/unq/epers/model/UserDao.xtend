@@ -29,8 +29,8 @@ class UserDao {
 			ps.setString(3, u.nombreDeUsuario);
 			ps.setString(4, u.email);
 			ps.setString(5, u.fechaDeNacimiento);
-			ps.setString(6, "false");
-			ps.setString(7, new Integer(u.hashCode()).toString());
+			ps.setBoolean(6,false);
+			ps.setInt(7,u.hashCode());
 			
 			s.MS.enviarMail(new Mail(s.email,u.email,"Verificacion de autenticacion",
 				"autetificate con el codigo: " + new Integer(u.hashCode()).toString()
