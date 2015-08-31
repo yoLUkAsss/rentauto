@@ -10,6 +10,19 @@ class Usuario {
 	String nombreDeUsuario;
 	String email;
 	String fechaDeNacimiento;
+
+	
+	new(String nombre,
+	String apellido,
+	String nombreDeUsuario,
+	String email,
+	String fechaDeNacimiento){
+		this.nombre=nombre;
+		this.apellido=apellido;
+		this.nombreDeUsuario=nombreDeUsuario;
+		this.email=email;
+		this.fechaDeNacimiento=fechaDeNacimiento;
+	}
 	
 	
 	

@@ -9,9 +9,16 @@ class Service {
 	
 	MailService mS;
 	Collection<Usuario> users;
+	UserDao udao;
+	String email;
+	
 	
 	def registrarUsuario(Usuario nuevoUsuario)throws UsuarioYaExisteException{
-		
+		try{
+			udao.registrarUsuario(nuevoUsuario,this);
+		}catch(UsuarioYaExisteException e){
+			throw e;
+		}
 	}
 	
 	def validarCuenta(String codigoValidacion)throws ValidacionException{
