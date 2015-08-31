@@ -34,11 +34,13 @@ Es necesario que el sistema tenga los siguientes servicios respetando la siguien
 
 Para el envió de mails tenemos el siguiente servicio escrito por otro grupo de trabajo:
 
+![Diagrama de clase mailing](https://drive.google.com/file/d/0BwLWxnCUu_qieTZoYTRpTHk3cUE/view?usp=sharing)
+
 Para la entrega es necesario que se implementen los tests necesarios para probar la funcionalidad expuesta. 
 En el caso del `EnviadorDeMails` se debe realizar un mock del mismo y testearlo funcionando y tirando una excepción.
 
 ## Entrega #2: Rentautos.
-Checkpoint: 21/09
+Checkpoint: 21/09<br />
 Fecha de Entrega: 28/09
 
 En esta segunda etapa del proyecto vamos a utilizar Hibernate como ORM. 
@@ -50,12 +52,12 @@ Esta entrega tiene como objetivo implementar el modelo de alquiler de autos y re
    * Modelo
    * Año
    * Patente
-   * Categorías (Familiar, Deportivo, 4x4)
+   * Categorías (_Familiar_, _Deportivo_, _4x4_)
    * Costo base por día
-* La empresa tiene muchas ubicaciones desde donde alquila los autos, como por ejemplo Ezeiza, Aeroparque, Retiro. 
-* Existen ubicaciones “virtuales” que integran más de una ubicación real. Por ejemplo Capital Federal, que incluye Retiro y Aeroparque.
-* Un auto puede estar en una ubicación solamente (maldita física). La información de la ubicación es temporal, o sea hoy esta en Ezeiza, pero al alquilarlo lo devuelven en Retiro, por lo que a partir de la semana que viene esta en Retiro.
-* La empresa maneja dos tipos de reserva, las reservas de clientes comunes y los empresariales. Las reservas empresariales tienen información extra sobre la facturación a la empresa.
+* La empresa tiene muchas ubicaciones desde donde alquila los autos, como por ejemplo _Ezeiza_, _Aeroparque_, _Retiro_. 
+* Existen ubicaciones “virtuales” que integran más de una ubicación real. Por ejemplo _Capital Federal_, que incluye _Retiro_ y _Aeroparque_.
+* Un auto puede estar en una ubicación solamente (maldita física). La información de la ubicación es temporal, o sea hoy esta en _Ezeiza_, pero al alquilarlo lo devuelven en _Retiro_, por lo que a partir de la semana que viene esta en _Retiro_.
+* La empresa maneja dos tipos de reserva: las reservas de clientes comunes y los empresariales. Las reservas empresariales tienen información extra sobre la facturación a la empresa.
 * Dependiendo de cada categoría de autos se modifica el tipo de cálculo del costo total.
 
 #### Requerimientos:
@@ -75,7 +77,7 @@ Para esta entrega les vamos a proveer el modelo de dominio ya implementado, lo q
 2. Implementar la arquitectura para que funcionen de forma transparente con el modelo de dominio ya implementado.
 3. Implementar los tests complementarios para demostrar el comportamiento del sistema con Hibernate
 
-Para esta entrega ya hay código de dominio escrito, por lo que se lo pueden bajar en la sección de adjuntos del tp.
+Para esta entrega ya hay código de dominio escrito, por lo que se lo pueden bajar del repositorio de git.
 
 ## Entrega #3: Performance en Hibernate.
 Fecha de Entrega: 19/10
@@ -101,7 +103,7 @@ Fecha de Entrega: 16/11
 El objetivo de esta entrega es que el usuario pueda agregar información a su perfil personal.
 
 #### Requerimientos:
-* Como usuario quiero calificar cada uno de los autos que alquile, estableciendo una calificación (EXCELENTE, BUENO, REGULAR, MALO) y un comentario de texto
+* Como usuario quiero calificar cada uno de los autos que alquile, estableciendo una calificación (_EXCELENTE_, _BUENO_, _REGULAR_, _MALO_) y un comentario de texto
 * Como usuario quiero a cada auto y comentario establecerle un nivel de visibilidad, privado, público y solo amigos.
 * Como usuario quiero poder ver el perfil público de otro usuario, viendo lo que me corresponde según si soy amigo o no.
 
