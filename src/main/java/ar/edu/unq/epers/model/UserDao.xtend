@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import ar.edu.unq.epers.extensions.MailService
+
 
 class UserDao {
 	
@@ -54,9 +54,6 @@ class UserDao {
 		return DriverManager.getConnection("jdbc:mysql://localhost/rentautoUsuario?user=root&password=root");
 	}
 	
-	def private setNull(){
-		conn=null;
-		ps=null;
-	}
+	
 	
 }
