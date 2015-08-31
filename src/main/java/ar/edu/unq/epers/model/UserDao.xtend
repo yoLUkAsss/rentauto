@@ -23,7 +23,7 @@ class UserDao {
 			if(rs.next()){
 				throw new UsuarioYaExisteException;
 			}
-			var ps2 = conn.prepareStatement("insert into usuario(?,?,?,?,?,?,?)");
+			var ps2 = conn.prepareStatement("insert into usuario(?,?,?,?,?,?,?,?)");
 			ps.setString(1, u.nombreDeUsuario);
 			ps.setString(2, u.apellido);
 			ps.setString(3, u.nombreDeUsuario);
@@ -31,6 +31,7 @@ class UserDao {
 			ps.setString(5, u.fechaDeNacimiento);
 			ps.setBoolean(6,false);
 			ps.setInt(7,u.hashCode());
+			ps.setString(8,u.password);
 			
 			s.MS.enviarMail(new Mail(s.email,u.email,"Verificacion de autenticacion",
 				"autetificate con el codigo: " + new Integer(u.hashCode()).toString()
