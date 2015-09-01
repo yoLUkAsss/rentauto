@@ -11,6 +11,8 @@ class Usuario {
 	String email;
 	String fechaDeNacimiento;
 	String password;
+	Boolean validez;
+	String codigo;
 
 	
 	new(String nombre,
@@ -25,6 +27,7 @@ class Usuario {
 		this.email=email;
 		this.fechaDeNacimiento=fechaDeNacimiento;
 		this.password=password;
+		this.validez=false;
 	}
 	
 	

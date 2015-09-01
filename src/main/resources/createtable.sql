@@ -1,0 +1,1 @@
+create table usuario(id integer primary key not null AUTO_INCREMENT,nombre varchar(25),apellido varchar(25),username varchar(25) unique, email varchar(30) unique, fechaNacimiento date, validez boolean, codigo varchar(40) unique, password varchar(40));
