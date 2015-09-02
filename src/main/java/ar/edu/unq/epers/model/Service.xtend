@@ -26,7 +26,13 @@ class Service {
 	
 	
 	def validarCuenta(String codigoValidacion)throws ValidacionException{
-		
+		var user = this.udao.getUsuarioPorCodigoDeValidacion(codigoValidacion);
+		if (user==null) {
+			throw new ValidacionException;
+		} else {
+			user.validar();
+			this.udao.save(user);
+		}
 	}
 	
 	def Usuario ingresarUsuario(String userName, String password)
@@ -42,4 +48,6 @@ class Service {
 			throw e;
 		}
 	}
+	
+	
 }

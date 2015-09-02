@@ -30,6 +30,10 @@ class Usuario {
 		this.validez=false;
 	}
 	
+	def validar() {
+		this.validez=true;
+	}
+	
 	
 	
 }

@@ -78,4 +78,32 @@ class UserDao {
 	
 	}
 	
+	//El siguiente metodo obtiene a un Usuario de acuerdo a su codigo de validacion,
+	//este es unico en la base de datos...
+	//Null en caso contrario
+	
+	def getUsuarioPorCodigoDeValidacion(String codigo) {
+		var conn = this.getConnection();
+		var ps = conn.prepareStatement("select * from usuario where codigoValidacion = ?");
+		
+		try{
+			ps.setString(1, codigo);
+			var ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				return new Usuario(rs.getString("nombre"),rs.getString("apellido"),
+					rs.getString("username"),rs.getString("email"),rs.getString("fechaNacimiento"),rs.getString("password"))
+			}else{
+				return null;
+			}
+			
+		}catch(Exception e){
+			throw new UsuarioNoExisteException; //preguntar
+		}finally{
+			if(ps != null)
+				ps.close();
+			if(conn != null)
+				conn.close();
+		}
+	}
+	
 }
