@@ -20,6 +20,8 @@ class Usuario {
 	String nombreDeUsuario,
 	String email,
 	String fechaDeNacimiento,
+	Boolean validez,
+	String codigo,
 	String password){
 		this.nombre=nombre;
 		this.apellido=apellido;
@@ -27,13 +29,16 @@ class Usuario {
 		this.email=email;
 		this.fechaDeNacimiento=fechaDeNacimiento;
 		this.password=password;
-		this.validez=false;
+		this.validez=validez;
+		this.codigo=codigo;
 	}
 	
 	def validar() {
 		this.validez=true;
 	}
 	
-	
+	def Boolean passValida(String pass){
+		this.password.equals(pass)
+	}
 	
 }

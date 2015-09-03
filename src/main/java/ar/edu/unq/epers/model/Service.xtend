@@ -15,12 +15,26 @@ class Service {
 	def registrarUsuario(Usuario nuevoUsuario)throws UsuarioYaExisteException{
 
 			
-			var u= udao.getUsuario(nuevoUsuario);
+			var u= udao.getUsuario(nuevoUsuario.nombreDeUsuario);
 			if(u!=null && !u.validez){
 				nuevoUsuario.validez=false;
 				nuevoUsuario.codigo=new Integer(nuevoUsuario.hashCode()).toString();
-				udao.save(nuevoUsuario);
+				udao.update(nuevoUsuario);
+				envMail(nuevoUsuario)
+			}else{
+				if(u==null){
+					nuevoUsuario.validez=false;
+					nuevoUsuario.codigo=new Integer(nuevoUsuario.hashCode()).toString();
+					udao.save(nuevoUsuario);
+					envMail(nuevoUsuario)
+				}else{
+					throw new UsuarioYaExisteException
+				}
 			}
+	}
+	
+	def private envMail(Usuario nuevoUsuario){
+		mS.enviarMail(new Mail(email,nuevoUsuario.email,"verificacion de cuenta requerida","debe activar la cuenta con este codigo: " + nuevoUsuario.codigo))
 	}
 		
 	
@@ -42,10 +56,13 @@ class Service {
 	
 	def cambiarPassword(String userName, String password, String nuevaPassword)
 	throws NuevaPasswordInvalida{
-		try{
-			udao.cambiarPassword(userName,password,nuevaPassword,this);
-		}catch(NuevaPasswordInvalida e){
-			throw e;
+		//inviariante userNameSiempreCorrecto?? o tiramos exception de pas, o username invalid?
+		var u = udao.getUsuario(userName)
+		if(u!=null && u.passValida(password) && u.password !=nuevaPassword){
+			u.password=nuevaPassword
+			udao.update(u);		
+		}else{
+			throw new NuevaPasswordInvalida
 		}
 	}
 	
