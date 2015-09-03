@@ -90,4 +90,23 @@ class UserDao {
 		}
 	}
 	
+	def Usuario ingresarUsuario(String userName, String password1)
+	{
+		
+		   var conn = this.getConnection();
+		   var ps = conn.prepareStatement("Select username from usuario  where username = ? and password = ?");
+	    
+           val ResultSet rs = ps.executeQuery();
+			   if(rs.next()){ 
+			 	
+			 	      return new Usuario(rs.getString("nombre"),rs.getString("apellido"),
+			 		  rs.getString("username"),rs.getString("email"),rs.getString("fechaNacimiento"),rs.getBoolean("validez"),rs.getString("codigo"),rs.getString("password"))
+			 		   
+			                            
+		       }
+		     else
+		        { return null;}
+		
+		}
+	
 }
