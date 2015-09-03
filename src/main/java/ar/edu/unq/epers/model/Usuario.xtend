@@ -33,6 +33,7 @@ class Usuario {
 		this.codigo=codigo;
 	}
 	
+	
 	def validar() {
 		this.validez=true;
 	}
