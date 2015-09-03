@@ -7,6 +7,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import junit.framework.Assert;
+
 import static org.mockito.Mockito.*;
 
 
@@ -76,4 +79,31 @@ public class ServiceTest {
 		}
 		
 	}
+	
+	@Test
+     public void ingresoUsuarioValido() throws UsuarioNoExisteException
+	{
+         when(unUserDao.ingresarUsuario("pepe","1234")).thenReturn(unUsuario)	;     
+     	
+         try{
+        	 sut.ingresarUsuario("pepe", "1234");
+         }catch (UsuarioNoExisteException e){
+        	 
+         }
+         assertEquals(unUsuario, sut.ingresarUsuario("pepe", "1234"));    
+	}
+       
+	@Test 
+	public void ingresoUsuarioInvalido()throws UsuarioNoExisteException
+	{
+		when(unUserDao.ingresarUsuario("jose", "1234")).thenReturn(null);
+		try{
+			sut.ingresarUsuario("jose","1234");
+		}catch (UsuarioNoExisteException e){
+			
+		}
+
+		
+	}
+	
 }
