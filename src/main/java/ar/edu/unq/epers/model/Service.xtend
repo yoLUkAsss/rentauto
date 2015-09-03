@@ -52,6 +52,16 @@ class Service {
 	def Usuario ingresarUsuario(String userName, String password)
 	throws UsuarioNoExisteException{
 		
+		var Usuario user= udao.ingresarUsuario(userName,password);
+		if(user==null)
+		{
+			throw new UsuarioNoExisteException
+		}
+		else{
+			return user;
+		}
+		
+		
 	}
 	
 	def cambiarPassword(String userName, String password, String nuevaPassword)
