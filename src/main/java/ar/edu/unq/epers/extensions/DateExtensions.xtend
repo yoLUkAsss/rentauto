@@ -15,4 +15,4 @@ class DateExtensions {
 		cal.set(Calendar.MILLISECOND,0)
 		cal.time
 	}
-}
+} 

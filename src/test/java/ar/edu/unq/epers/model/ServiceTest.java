@@ -8,20 +8,22 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import ar.edu.unq.epers.extensions.MailService;
 import junit.framework.Assert;
-
 import static org.mockito.Mockito.*;
 
 
 /**
  * @author alumno
  *
- */
+ */ 
 public class ServiceTest {
 	
 	Service sut;
 	Usuario unUsuario;
 	UserDao unUserDao;
+	String username;
+	MailService unMs;
 	
 
 	/**
@@ -33,9 +35,27 @@ public class ServiceTest {
 		sut = new Service();
 		unUsuario = mock(Usuario.class);
 		unUserDao = mock(UserDao.class);
+		unMs = mock(MailService.class);
 		sut.setUdao(unUserDao);
+		sut.setMS(unMs);
+		username = "pepita";
 	}
 
+	@Test
+	public void testDeValidarCuentaInvalida() {
+		
+		String codigo = "g43u8s";
+
+		when(unUserDao.getUsuarioPorCodigoDeValidacion(codigo)).thenReturn(null);
+		
+		try {
+			sut.validarCuenta(codigo);
+			fail();
+		} catch (ValidacionException e) {
+			//Deberia entrar por aca
+		}		
+	}
+	
 	@Test
 	public void testDeValidarCuenta() {
 		
@@ -46,7 +66,7 @@ public class ServiceTest {
 		try {
 			sut.validarCuenta(codigo);
 		} catch (ValidacionException e) {
-			e.printStackTrace();
+			//No entra por aca
 		}
 		
 		verify(unUsuario).validar();
@@ -54,31 +74,62 @@ public class ServiceTest {
 	}
 	
 	@Test
-	public void testRegistrarUnUsuario() {
+	public void testRegistrarUnUsuarioConReemplazo() {
 		
-		when(unUserDao.getUsuario(unUsuario)).thenReturn(unUsuario);
+		Usuario otroUser = mock(Usuario.class);
+		when(unUserDao.getUsuario(username)).thenReturn(otroUser);
+		when(unUsuario.getNombreDeUsuario()).thenReturn(username);
+		doNothing().when(unUsuario).setValidez(false);
+		doNothing().when(unUsuario).setCodigo(new Integer (unUsuario.hashCode()).toString());
+		when(otroUser.getValidez()).thenReturn(false);
 		
 		try {
 			sut.registrarUsuario(unUsuario);
 		} catch (UsuarioYaExisteException e) {
-			//En este caso, no falla
+			//Este no falla
+			fail();
+		}
+		
+		verify(unUserDao).update(unUsuario);
+		
+	}
+	
+	@Test
+	public void testRegistrarUnUsuarioSinReemplazo() {
+		
+		when(unUserDao.getUsuario(username)).thenReturn(null);
+		when(unUsuario.getNombreDeUsuario()).thenReturn(username);
+		doNothing().when(unUsuario).setValidez(false);
+		doNothing().when(unUsuario).setCodigo(new Integer (unUsuario.hashCode()).toString());
+		
+		try {
+			sut.registrarUsuario(unUsuario);
+		} catch (UsuarioYaExisteException e) {
+			//Este no falla
+			fail();
 		}
 		
 		verify(unUserDao).save(unUsuario);
 	}
 	
 	@Test
-	public void testRegistrarUnUsuarioInvalido() {
+	public void testRegistrarUnUsuarioException() {
 		
-		when(unUserDao.getUsuario(unUsuario)).thenReturn(unUsuario);
+		Usuario otroUser = mock(Usuario.class);
+		when(unUserDao.getUsuario(username)).thenReturn(otroUser);
+		when(unUsuario.getNombreDeUsuario()).thenReturn(username);
+		doNothing().when(unUsuario).setValidez(false);
+		doNothing().when(unUsuario).setCodigo(new Integer (unUsuario.hashCode()).toString());
+		when(otroUser.getValidez()).thenReturn(true);
 		
 		try {
 			sut.registrarUsuario(unUsuario);
+			fail();
 		} catch (UsuarioYaExisteException e) {
-			//En este caso, no falla
+			//Deberia entrar por aca
 		}
-		
 	}
+	
 	
 	@Test
      public void ingresoUsuarioValido() throws UsuarioNoExisteException
@@ -99,6 +150,7 @@ public class ServiceTest {
 		when(unUserDao.ingresarUsuario("jose", "1234")).thenReturn(null);
 		try{
 			sut.ingresarUsuario("jose","1234");
+			fail();
 		}catch (UsuarioNoExisteException e){
 			
 		}

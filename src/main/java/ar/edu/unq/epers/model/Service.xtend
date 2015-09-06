@@ -12,27 +12,27 @@ class Service {
 	String email;
 	
 	
+	
+	
 	def registrarUsuario(Usuario nuevoUsuario)throws UsuarioYaExisteException{
 
 			
 			var u= udao.getUsuario(nuevoUsuario.nombreDeUsuario);
+			nuevoUsuario.validez=false;
+			nuevoUsuario.codigo=new Integer(nuevoUsuario.hashCode()).toString()
 			if(u!=null && !u.validez){
-				nuevoUsuario.validez=false;
-				nuevoUsuario.codigo=new Integer(nuevoUsuario.hashCode()).toString();
-				udao.update(nuevoUsuario);
+				udao.update(nuevoUsuario)
 				envMail(nuevoUsuario)
 			}else{
 				if(u==null){
-					nuevoUsuario.validez=false;
-					nuevoUsuario.codigo=new Integer(nuevoUsuario.hashCode()).toString();
-					udao.save(nuevoUsuario);
+					udao.save(nuevoUsuario)
 					envMail(nuevoUsuario)
 				}else{
 					throw new UsuarioYaExisteException
 				}
 			}
 	}
-	
+
 	def private envMail(Usuario nuevoUsuario){
 		mS.enviarMail(new Mail(email,nuevoUsuario.email,"verificacion de cuenta requerida","debe activar la cuenta con este codigo: " + nuevoUsuario.codigo))
 	}

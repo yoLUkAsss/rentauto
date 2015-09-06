@@ -16,3 +16,4 @@ class Ubicacion {
 class UbicacionVirtual extends Ubicacion{
 	List<Ubicacion> ubicaciones
 }
+ 

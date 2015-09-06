@@ -1,7 +1,7 @@
 package ar.edu.unq.epers.model
 
 import org.eclipse.xtend.lib.annotations.Accessors
-
+ 
 @Accessors 
 abstract class Categoria {
 	String nombre

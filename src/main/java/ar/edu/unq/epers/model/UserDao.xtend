@@ -11,18 +11,32 @@ class UserDao {
 	Connection conn;
 	PreparedStatement ps;
 	
+	
+	 
+	/*
+	 * Retorna un usuario de acuerdo al nombre de usuario.
+	 */
 	def Usuario getUsuario(String s){
 		var conn = this.getConnection();
 		var ps = conn.prepareStatement("Select * from usuario  where username=?");
-		
+			
+		try{
 			ps.setString(1, s);
 			var ResultSet rs = ps.executeQuery();
 			if(rs.next()){
 				return new Usuario(rs.getString("nombre"),rs.getString("apellido"),
 					rs.getString("username"),rs.getString("email"),rs.getString("fechaNacimiento"),rs.getBoolean("validez"),rs.getString("codigo"),rs.getString("password"))
 			}else{
-				return null;
+				return null; //throw new UsuarioNoExisteExceotion
 			}
+		}catch(Exception e){
+			throw new UsuarioYaExisteException; //throw e
+		}finally{
+			if(ps != null)
+				ps.close();
+			if(conn != null)
+				conn.close();
+		}	
 	}
 	
 	def save(Usuario u){
@@ -36,7 +50,9 @@ class UserDao {
 		ps.setBoolean(6,u.validez);
 		ps.setString(7,u.codigo);
 		ps.setString(8,u.password);
-		
+		ps.execute();
+		ps.close()
+		conn.close()
 	}
 	
 	def update(Usuario u){
@@ -51,6 +67,9 @@ class UserDao {
 		ps.setString(7,u.codigo);
 		ps.setString(8,u.password);
 		ps.setString(9,u.nombreDeUsuario);
+		ps.execute();
+		ps.close()
+		conn.close()
 	}
 	
 	
@@ -96,6 +115,7 @@ class UserDao {
 		   var conn = this.getConnection();
 		   var ps = conn.prepareStatement("Select username from usuario  where username = ? and password = ?");
 	    
+	    	try {
            val ResultSet rs = ps.executeQuery();
 			   if(rs.next()){ 
 			 	
@@ -106,6 +126,14 @@ class UserDao {
 		       }
 		     else
 		        { return null;}
+			} catch (Exception e) {
+				throw e;
+			} finally {
+				if(ps != null)
+					ps.close();
+				if(conn != null)
+					conn.close();
+			}
 		
 		}
 	
