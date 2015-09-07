@@ -42,4 +42,13 @@ class Usuario {
 		this.password.equals(pass)
 	}
 	
+	override equals(Object o){
+		if(o!=null && o.class==this.class){
+			var Usuario n = o as Usuario;
+			return this.nombreDeUsuario == n.nombreDeUsuario
+		}else{
+			return false;
+		}
+	}
+	
 }

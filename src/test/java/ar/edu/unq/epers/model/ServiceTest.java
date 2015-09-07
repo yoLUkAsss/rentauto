@@ -13,10 +13,6 @@ import junit.framework.Assert;
 import static org.mockito.Mockito.*;
 
 
-/**
- * @author alumno
- *
- */ 
 public class ServiceTest {
 	
 	Service sut;
@@ -79,8 +75,6 @@ public class ServiceTest {
 		Usuario otroUser = mock(Usuario.class);
 		when(unUserDao.getUsuario(username)).thenReturn(otroUser);
 		when(unUsuario.getNombreDeUsuario()).thenReturn(username);
-		doNothing().when(unUsuario).setValidez(false);
-		doNothing().when(unUsuario).setCodigo(new Integer (unUsuario.hashCode()).toString());
 		when(otroUser.getValidez()).thenReturn(false);
 		
 		try {
@@ -89,7 +83,8 @@ public class ServiceTest {
 			//Este no falla
 			fail();
 		}
-		
+		verify(unUsuario).setValidez(false);
+		verify(unUsuario).setCodigo(new Integer (unUsuario.hashCode()).toString());
 		verify(unUserDao).update(unUsuario);
 		
 	}
@@ -134,20 +129,17 @@ public class ServiceTest {
 	@Test
      public void ingresoUsuarioValido() throws UsuarioNoExisteException
 	{
-         when(unUserDao.ingresarUsuario("pepe","1234")).thenReturn(unUsuario)	;     
+         when(unUserDao.getUsuario("pepita")).thenReturn(unUsuario)	;
+         when(unUsuario.getPassword()).thenReturn("1234");
+         when(unUsuario.getValidez()).thenReturn(true);
      	
-         try{
-        	 sut.ingresarUsuario("pepe", "1234");
-         }catch (UsuarioNoExisteException e){
-        	 
-         }
-         assertEquals(unUsuario, sut.ingresarUsuario("pepe", "1234"));    
+         assertEquals(unUsuario, sut.ingresarUsuario("pepita", "1234"));    
 	}
        
 	@Test 
 	public void ingresoUsuarioInvalido()throws UsuarioNoExisteException
 	{
-		when(unUserDao.ingresarUsuario("jose", "1234")).thenReturn(null);
+		when(unUserDao.getUsuario("jose")).thenReturn(null);
 		try{
 			sut.ingresarUsuario("jose","1234");
 			fail();

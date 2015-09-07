@@ -41,7 +41,7 @@ class UserDao {
 	
 	def save(Usuario u){
 		var conn = this.getConnection();
-		var ps = conn.prepareStatement("insert into usuario(?,?,?,?,?,?,?,?)");
+		var ps = conn.prepareStatement("insert into usuario (nombre,apellido,username,email,fechaNacimiento,validez,codigo,password) values (?,?,?,?,?,?,?,?)");
 		ps.setString(1, u.nombreDeUsuario);
 		ps.setString(2, u.apellido);
 		ps.setString(3, u.nombreDeUsuario);
@@ -58,7 +58,7 @@ class UserDao {
 	def update(Usuario u){
 		var conn = this.getConnection();
 		var ps = conn.prepareStatement("update usuario set nombre=?, apellido=?, username=?, email=?, fechaNacimiento=?, validez=?, codigo=?, password=? where username=?");
-		ps.setString(1,u.nombreDeUsuario);
+		ps.setString(1,u.nombre);
 		ps.setString(2, u.apellido);
 		ps.setString(3, u.nombreDeUsuario);
 		ps.setString(4, u.email);
@@ -109,32 +109,6 @@ class UserDao {
 		}
 	}
 	
-	def Usuario ingresarUsuario(String userName, String password1)
-	{
-		
-		   var conn = this.getConnection();
-		   var ps = conn.prepareStatement("Select username from usuario  where username = ? and password = ?");
-	    
-	    	try {
-           val ResultSet rs = ps.executeQuery();
-			   if(rs.next()){ 
-			 	
-			 	      return new Usuario(rs.getString("nombre"),rs.getString("apellido"),
-			 		  rs.getString("username"),rs.getString("email"),rs.getString("fechaNacimiento"),rs.getBoolean("validez"),rs.getString("codigo"),rs.getString("password"))
-			 		   
-			                            
-		       }
-		     else
-		        { return null;}
-			} catch (Exception e) {
-				throw e;
-			} finally {
-				if(ps != null)
-					ps.close();
-				if(conn != null)
-					conn.close();
-			}
-		
-		}
+	
 	
 }
