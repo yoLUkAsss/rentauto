@@ -51,10 +51,12 @@ class Service {
 		if (user == null) {
 			throw new UsuarioNoExisteException
 		}
-		if (password.equals(user.password) && user.validez) {
-			return user;
-		} else
-			return null;
+
+		if(!user.passValida(password) || !user.validez){
+			throw new IngresoNoValidoException
+		}
+		return user
+		
 	}
 
 	def cambiarPassword(String userName, String password, String nuevaPassword) throws NuevaPasswordInvalida{
