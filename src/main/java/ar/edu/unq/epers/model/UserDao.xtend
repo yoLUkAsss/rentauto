@@ -16,12 +16,12 @@ class UserDao {
 	/*
 	 * Retorna un usuario de acuerdo al nombre de usuario.
 	 */
-	def Usuario getUsuario(String s){
+	def Usuario getUsuario(String username){
 		var conn = this.getConnection();
 		var ps = conn.prepareStatement("Select * from usuario  where username=?");
 			
 		try{
-			ps.setString(1, s);
+			ps.setString(1, username);
 			var ResultSet rs = ps.executeQuery();
 			if(rs.next()){
 				return new Usuario(rs.getString("nombre"),rs.getString("apellido"),
@@ -29,8 +29,6 @@ class UserDao {
 			}else{
 				return null; //throw new UsuarioNoExisteExceotion
 			}
-		}catch(Exception e){
-			throw new UsuarioYaExisteException; //throw e
 		}finally{
 			if(ps != null)
 				ps.close();

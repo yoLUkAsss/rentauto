@@ -37,52 +37,36 @@ public class ServiceTest {
 		username = "pepita";
 	}
 
-	@Test
-	public void testDeValidarCuentaInvalida() {
-		
+	@Test(expected = ValidacionException.class)
+	public void testDeValidarCuentaInvalida() throws ValidacionException {
 		String codigo = "g43u8s";
 
 		when(unUserDao.getUsuarioPorCodigoDeValidacion(codigo)).thenReturn(null);
-		
-		try {
-			sut.validarCuenta(codigo);
-			fail();
-		} catch (ValidacionException e) {
-			//Deberia entrar por aca
-		}		
+		sut.validarCuenta(codigo);
 	}
 	
 	@Test
-	public void testDeValidarCuenta() {
+	public void testDeValidarCuenta() throws ValidacionException {
 		
 		String codigo = "g43u8s";
-
 		when(unUserDao.getUsuarioPorCodigoDeValidacion(codigo)).thenReturn(unUsuario);
 		
-		try {
-			sut.validarCuenta(codigo);
-		} catch (ValidacionException e) {
-			//No entra por aca
-		}
-		
+		sut.validarCuenta(codigo);
+
 		verify(unUsuario).validar();
 		
 	}
 	
 	@Test
-	public void testRegistrarUnUsuarioConReemplazo() {
+	public void testRegistrarUnUsuarioConReemplazo() throws UsuarioYaExisteException{
 		
 		Usuario otroUser = mock(Usuario.class);
 		when(unUserDao.getUsuario(username)).thenReturn(otroUser);
 		when(unUsuario.getNombreDeUsuario()).thenReturn(username);
 		when(otroUser.getValidez()).thenReturn(false);
 		
-		try {
-			sut.registrarUsuario(unUsuario);
-		} catch (UsuarioYaExisteException e) {
-			//Este no falla
-			fail();
-		}
+		sut.registrarUsuario(unUsuario);
+
 		verify(unUsuario).setValidez(false);
 		verify(unUsuario).setCodigo(new Integer (unUsuario.hashCode()).toString());
 		verify(unUserDao).update(unUsuario);
@@ -90,25 +74,20 @@ public class ServiceTest {
 	}
 	
 	@Test
-	public void testRegistrarUnUsuarioSinReemplazo() {
+	public void testRegistrarUnUsuarioSinReemplazo() throws UsuarioYaExisteException{
 		
 		when(unUserDao.getUsuario(username)).thenReturn(null);
 		when(unUsuario.getNombreDeUsuario()).thenReturn(username);
 		doNothing().when(unUsuario).setValidez(false);
 		doNothing().when(unUsuario).setCodigo(new Integer (unUsuario.hashCode()).toString());
-		
-		try {
-			sut.registrarUsuario(unUsuario);
-		} catch (UsuarioYaExisteException e) {
-			//Este no falla
-			fail();
-		}
-		
+
+		sut.registrarUsuario(unUsuario);
+			
 		verify(unUserDao).save(unUsuario);
 	}
 	
-	@Test
-	public void testRegistrarUnUsuarioException() {
+	@Test (expected = UsuarioYaExisteException.class)
+	public void testRegistrarUnUsuarioException() throws UsuarioYaExisteException{
 		
 		Usuario otroUser = mock(Usuario.class);
 		when(unUserDao.getUsuario(username)).thenReturn(otroUser);
@@ -117,13 +96,9 @@ public class ServiceTest {
 		doNothing().when(unUsuario).setCodigo(new Integer (unUsuario.hashCode()).toString());
 		when(otroUser.getValidez()).thenReturn(true);
 		
-		try {
-			sut.registrarUsuario(unUsuario);
-			fail();
-		} catch (UsuarioYaExisteException e) {
-			//Deberia entrar por aca
-		}
+		sut.registrarUsuario(unUsuario);
 	}
+
 	
 	
 	@Test
@@ -136,16 +111,11 @@ public class ServiceTest {
          assertEquals(unUsuario, sut.ingresarUsuario("pepita", "1234"));    
 	}
        
-	@Test 
+	@Test  (expected = UsuarioNoExisteException.class)
 	public void ingresoUsuarioInvalido()throws UsuarioNoExisteException
 	{
 		when(unUserDao.getUsuario("jose")).thenReturn(null);
-		try{
-			sut.ingresarUsuario("jose","1234");
-			fail();
-		}catch (UsuarioNoExisteException e){
-			
-		}
+		sut.ingresarUsuario("jose","1234");
 
 		
 	}
