@@ -20,23 +20,21 @@ class UserDao {
 		var conn = this.getConnection();
 		var ps = conn.prepareStatement("Select * from usuario  where username=?");
 			
-		try{
-			ps.setString(1, s);
-			var ResultSet rs = ps.executeQuery();
-			if(rs.next()){
-				return new Usuario(rs.getString("nombre"),rs.getString("apellido"),
-					rs.getString("username"),rs.getString("email"),rs.getString("fechaNacimiento"),rs.getBoolean("validez"),rs.getString("codigo"),rs.getString("password"))
-			}else{
-				return null; //throw new UsuarioNoExisteExceotion
-			}
-		}catch(Exception e){
-			throw new UsuarioYaExisteException; //throw e
-		}finally{
-			if(ps != null)
-				ps.close();
-			if(conn != null)
-				conn.close();
-		}	
+		ps.setString(1, s);
+		var ResultSet rs = ps.executeQuery();
+		if(rs.next()){
+			return new Usuario(rs.getString("nombre"),rs.getString("apellido"),
+				rs.getString("username"),rs.getString("email"),rs.getString("fechaNacimiento"),rs.getBoolean("validez"),rs.getString("codigo"),rs.getString("password"))
+		}
+			
+		
+
+		if(ps != null)
+			ps.close();
+		if(conn != null)
+			conn.close();
+		return null; 
+
 	}
 	
 	def save(Usuario u){
@@ -89,24 +87,20 @@ class UserDao {
 		var conn = this.getConnection();
 		var ps = conn.prepareStatement("select * from usuario where codigoValidacion = ?");
 		
-		try{
-			ps.setString(1, codigo);
-			var ResultSet rs = ps.executeQuery();
-			if(rs.next()){
-				return new Usuario(rs.getString("nombre"),rs.getString("apellido"),
-					rs.getString("username"),rs.getString("email"),rs.getString("fechaNacimiento"),rs.getBoolean("validez"),rs.getString("codigo"),rs.getString("password"))
-			}else{
-				return null;
-			}
-			
-		}catch(Exception e){
-			throw new UsuarioNoExisteException; //preguntar
-		}finally{
-			if(ps != null)
-				ps.close();
-			if(conn != null)
-				conn.close();
+		
+		ps.setString(1, codigo);
+		var ResultSet rs = ps.executeQuery();
+		if(rs.next()){
+			return new Usuario(rs.getString("nombre"),rs.getString("apellido"),
+				rs.getString("username"),rs.getString("email"),rs.getString("fechaNacimiento"),rs.getBoolean("validez"),rs.getString("codigo"),rs.getString("password"))
 		}
+		
+		if(ps != null)
+			ps.close();
+		if(conn != null)
+			conn.close();
+		return null;
+		
 	}
 	
 	
