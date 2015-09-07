@@ -11,31 +11,15 @@ class UserDao {
 	Connection conn;
 	PreparedStatement ps;
 	
-	
-	 
-	/*
-	 * Retorna un usuario de acuerdo al nombre de usuario.
-	 */
-	def Usuario getUsuario(String username){
+	def delete(String username){
 		var conn = this.getConnection();
-		var ps = conn.prepareStatement("Select * from usuario  where username=?");
-			
-		ps.setString(1, s);
-		var ResultSet rs = ps.executeQuery();
-		if(rs.next()){
-			return new Usuario(rs.getString("nombre"),rs.getString("apellido"),
-				rs.getString("username"),rs.getString("email"),rs.getString("fechaNacimiento"),rs.getBoolean("validez"),rs.getString("codigo"),rs.getString("password"))
-		}
-			
-		
-
-		if(ps != null)
-			ps.close();
-		if(conn != null)
-			conn.close();
-		return null; 
-
+		var ps = conn.prepareStatement("delete from usuario where username=?");
+		ps.setString(1,username);
+		ps.execute();
+		ps.close();
+		conn.close();
 	}
+	
 	
 	def save(Usuario u){
 		var conn = this.getConnection();
@@ -70,39 +54,55 @@ class UserDao {
 		conn.close()
 	}
 	
+	def getUsuarioPorCodigoDeValidacion(String codigo) {
+		return this.getUsuario("codigo",codigo)
+		
+	}
+	
+	def getUsuarioPorUsername(String username) {
+		return (this.getUsuario("username",username))
+	}
+	
+	
+//=========================
+//Metodos privados
+//==========================		
+		
 	
 	def private Connection getConnection() throws Exception {
 		Class.forName("com.mysql.jdbc.Driver");
 		return DriverManager.getConnection("jdbc:mysql://localhost/rentautoUsuario?user=root&password=root");
 	}
 	
-	
-	
-	
 	//El siguiente metodo obtiene a un Usuario de acuerdo a su codigo de validacion,
 	//este es unico en la base de datos...
 	//Null en caso contrario
 	
-	def getUsuarioPorCodigoDeValidacion(String codigo) {
-		var conn = this.getConnection();
-		var ps = conn.prepareStatement("select * from usuario where codigoValidacion = ?");
+	def private Usuario getUsuario(String atributo , String valorBuscado){
 		
+		try{
+			var conn = this.getConnection();
+			var ps = conn.prepareStatement("Select * from usuario  where "+ atributo + "=?");
+				
+			ps.setString(1,valorBuscado)
+			var ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				return new Usuario(rs.getString("nombre"),rs.getString("apellido"),
+					rs.getString("username"),rs.getString("email"),rs.getString("fechaNacimiento"),rs.getBoolean("validez"),rs.getString("codigo"),rs.getString("password"))
+					
+			}
+			return null
+		}catch(Exception e){
+			throw e
+		}finally{
+			
+			if(ps != null)
+				ps.close();
+			if(conn != null)
+				conn.close();
 		
-		ps.setString(1, codigo);
-		var ResultSet rs = ps.executeQuery();
-		if(rs.next()){
-			return new Usuario(rs.getString("nombre"),rs.getString("apellido"),
-				rs.getString("username"),rs.getString("email"),rs.getString("fechaNacimiento"),rs.getBoolean("validez"),rs.getString("codigo"),rs.getString("password"))
 		}
-		
-		if(ps != null)
-			ps.close();
-		if(conn != null)
-			conn.close();
-		return null;
-		
+
 	}
-	
-	
 	
 }

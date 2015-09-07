@@ -21,24 +21,19 @@ class DaoTest {
 	
 	@Test
 	def void testSaveyGetUsuario(){
-		try{
 			sut.save(u);
-			assertEquals(u,sut.getUsuario("thidalgo"))
-		}catch(Exception e){
-			assertEquals(u,sut.getUsuario("thidalgo"))
-		}
+			assertEquals(u,sut.getUsuarioPorUsername("thidalgo"))
+			sut.delete(u.nombreDeUsuario);
+		
 	}
 	
 	@Test
 	def void testUpdate(){
-		try{
 			sut.save(u);
 			sut.update(u2);
-			assertEquals(u2.nombre,sut.getUsuario("thidalgo").nombre)
-		}catch(Exception e){
-			sut.update(u2);
-			assertEquals(u2.nombre,sut.getUsuario("thidalgo").nombre)
-		}
+			assertEquals(u2.nombre,sut.getUsuarioPorUsername("thidalgo").nombre)
+			sut.delete(u.nombreDeUsuario)
+
 	}
 	
 }

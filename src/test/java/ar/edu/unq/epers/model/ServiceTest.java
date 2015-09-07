@@ -61,7 +61,7 @@ public class ServiceTest {
 	public void testRegistrarUnUsuarioConReemplazo() throws UsuarioYaExisteException{
 		
 		Usuario otroUser = mock(Usuario.class);
-		when(unUserDao.getUsuario(username)).thenReturn(otroUser);
+		when(unUserDao.getUsuarioPorUsername(username)).thenReturn(otroUser);
 		when(unUsuario.getNombreDeUsuario()).thenReturn(username);
 		when(otroUser.getValidez()).thenReturn(false);
 		
@@ -76,7 +76,7 @@ public class ServiceTest {
 	@Test
 	public void testRegistrarUnUsuarioSinReemplazo() throws UsuarioYaExisteException{
 		
-		when(unUserDao.getUsuario(username)).thenReturn(null);
+		when(unUserDao.getUsuarioPorUsername(username)).thenReturn(null);
 		when(unUsuario.getNombreDeUsuario()).thenReturn(username);
 		doNothing().when(unUsuario).setValidez(false);
 		doNothing().when(unUsuario).setCodigo(new Integer (unUsuario.hashCode()).toString());
@@ -90,7 +90,7 @@ public class ServiceTest {
 	public void testRegistrarUnUsuarioException() throws UsuarioYaExisteException{
 		
 		Usuario otroUser = mock(Usuario.class);
-		when(unUserDao.getUsuario(username)).thenReturn(otroUser);
+		when(unUserDao.getUsuarioPorUsername(username)).thenReturn(otroUser);
 		when(unUsuario.getNombreDeUsuario()).thenReturn(username);
 		doNothing().when(unUsuario).setValidez(false);
 		doNothing().when(unUsuario).setCodigo(new Integer (unUsuario.hashCode()).toString());
@@ -102,10 +102,10 @@ public class ServiceTest {
 	
 	
 	@Test
-     public void ingresoUsuarioValido() throws UsuarioNoExisteException
+     public void ingresoUsuarioValido() throws UsuarioNoExisteException,IngresoNoValidoException
 	{
-         when(unUserDao.getUsuario("pepita")).thenReturn(unUsuario)	;
-         when(unUsuario.getPassword()).thenReturn("1234");
+         when(unUserDao.getUsuarioPorUsername("pepita")).thenReturn(unUsuario)	;
+         when(unUsuario.passValida("1234")).thenReturn(true);
          when(unUsuario.getValidez()).thenReturn(true);
      	
          assertEquals(unUsuario, sut.ingresarUsuario("pepita", "1234"));    
@@ -114,7 +114,7 @@ public class ServiceTest {
 	@Test  (expected = UsuarioNoExisteException.class)
 	public void ingresoUsuarioInvalido()throws UsuarioNoExisteException
 	{
-		when(unUserDao.getUsuario("jose")).thenReturn(null);
+		when(unUserDao.getUsuarioPorUsername("jose")).thenReturn(null);
 		sut.ingresarUsuario("jose","1234");
 
 		
