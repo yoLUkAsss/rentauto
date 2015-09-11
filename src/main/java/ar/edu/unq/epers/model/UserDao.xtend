@@ -20,7 +20,7 @@ class UserDao {
 		var conn = this.getConnection();
 		var ps = conn.prepareStatement("Select * from usuario  where username=?");
 			
-		ps.setString(1, s);
+		ps.setString(1, username);
 		var ResultSet rs = ps.executeQuery();
 		if(rs.next()){
 			return new Usuario(rs.getString("nombre"),rs.getString("apellido"),

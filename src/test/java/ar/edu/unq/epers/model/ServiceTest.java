@@ -102,7 +102,7 @@ public class ServiceTest {
 	
 	
 	@Test
-     public void ingresoUsuarioValido() throws UsuarioNoExisteException
+     public void ingresoUsuarioValido() throws UsuarioNoExisteException,IngresoNoValidoException
 	{
          when(unUserDao.getUsuario("pepita")).thenReturn(unUsuario)	;
          when(unUsuario.getPassword()).thenReturn("1234");
