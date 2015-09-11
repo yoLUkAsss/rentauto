@@ -4,54 +4,69 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import org.eclipse.xtext.xbase.lib.Functions.Function1
 
 class UserDao {
 	
 	Connection conn;
 	PreparedStatement ps;
 	
-	def delete(String username){
-		var conn = this.getConnection();
-		var ps = conn.prepareStatement("delete from usuario where username=?");
-		ps.setString(1,username);
-		ps.execute();
-		ps.close();
-		conn.close();
+	def setAtributosPrincipales(PreparedStatement ps,Usuario u ) {
+		ps.setString(1, u.nombre);
+		ps.setString(2, u.apellido);
+		ps.setString(3, u.nombreDeUsuario);
+		ps.setString(4, u.email);
+		ps.setString(5, u.fechaDeNacimiento);
+		ps.setBoolean(6,u.validez);
+		ps.setString(7,u.codigo);
+		ps.setString(8,u.password);
+	}
+	
+	def  ejecutame(Function1<Connection, Usuario> bloque) {
+		try{
+			this.conn = this.getConnection()
+		    val usuario = bloque.apply(conn)
+		    return usuario
+	    }catch(Exception e){
+	    	throw e
+	    }finally{
+	    	if(ps != null)
+				ps.close();
+			if(conn != null)
+				conn.close();
+	    }
+     
+	}
+	
+	
+	
+	def void delete(String username){
+		this.ejecutame([connection | 
+			this.ps =connection.prepareStatement("delete from usuario where username=?");
+			ps.setString(1,username);
+			ps.execute();
+			return null;							
+		])
 	}
 	
 	
 	def save(Usuario u){
-		var conn = this.getConnection();
-		var ps = conn.prepareStatement("insert into usuario (nombre,apellido,username,email,fechaNacimiento,validez,codigo,password) values (?,?,?,?,?,?,?,?)");
-		ps.setString(1, u.nombreDeUsuario);
-		ps.setString(2, u.apellido);
-		ps.setString(3, u.nombreDeUsuario);
-		ps.setString(4, u.email);
-		ps.setString(5, u.fechaDeNacimiento);
-		ps.setBoolean(6,u.validez);
-		ps.setString(7,u.codigo);
-		ps.setString(8,u.password);
+		this.ejecutame([connection |
+		this.ps = connection.prepareStatement("insert into usuario (nombre,apellido,username,email,fechaNacimiento,validez,codigo,password) values (?,?,?,?,?,?,?,?)");
+		setAtributosPrincipales(ps,u)
 		ps.execute();
-		ps.close()
-		conn.close()
+		return null;
+		])
 	}
 	
 	def update(Usuario u){
-		var conn = this.getConnection();
-		var ps = conn.prepareStatement("update usuario set nombre=?, apellido=?, username=?, email=?, fechaNacimiento=?, validez=?, codigo=?, password=? where username=?");
-		ps.setString(1,u.nombre);
-		ps.setString(2, u.apellido);
-		ps.setString(3, u.nombreDeUsuario);
-		ps.setString(4, u.email);
-		ps.setString(5, u.fechaDeNacimiento);
-		ps.setBoolean(6,u.validez);
-		ps.setString(7,u.codigo);
-		ps.setString(8,u.password);
+		this.ejecutame([connection |
+		this.ps = connection.prepareStatement("update usuario set nombre=?, apellido=?, username=?, email=?, fechaNacimiento=?, validez=?, codigo=?, password=? where username=?");
+		setAtributosPrincipales(ps,u)
 		ps.setString(9,u.nombreDeUsuario);
 		ps.execute();
-		ps.close()
-		conn.close()
+		return null;
+		])
 	}
 	
 	def getUsuarioPorCodigoDeValidacion(String codigo) {
@@ -80,28 +95,21 @@ class UserDao {
 	
 	def private Usuario getUsuario(String atributo , String valorBuscado){
 		
-		try{
-			var conn = this.getConnection();
-			var ps = conn.prepareStatement("Select * from usuario  where "+ atributo + "=?");
-				
-			ps.setString(1,valorBuscado)
-			var ResultSet rs = ps.executeQuery();
-			if(rs.next()){
-				return new Usuario(rs.getString("nombre"),rs.getString("apellido"),
-					rs.getString("username"),rs.getString("email"),rs.getString("fechaNacimiento"),rs.getBoolean("validez"),rs.getString("codigo"),rs.getString("password"))
-					
-			}
-			return null
-		}catch(Exception e){
-			throw e
-		}finally{
-			
-			if(ps != null)
-				ps.close();
-			if(conn != null)
-				conn.close();
 		
-		}
+			this.ejecutame([connection | 
+				this.ps = connection.prepareStatement("Select * from usuario  where "+ atributo + "=?");
+					
+				ps.setString(1,valorBuscado)
+				var ResultSet rs = ps.executeQuery();
+				if(rs.next()){
+					return new Usuario(rs.getString("nombre"),rs.getString("apellido"),
+						rs.getString("username"),rs.getString("email"),rs.getString("fechaNacimiento"),rs.getBoolean("validez"),rs.getString("codigo"),rs.getString("password"))
+						
+				}
+				return null
+			
+			])
+		
 
 	}
 	

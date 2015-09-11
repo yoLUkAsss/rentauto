@@ -32,14 +32,21 @@ class Usuario {
 		this.validez=validez;
 		this.codigo=codigo;
 	}
-	
+	val esIngresoValido =[
+		String password |
+		 this.passValida(password) && this.validez
+	]
 	
 	def validar() {
 		this.validez=true;
 	}
 	
 	def Boolean passValida(String pass){
-		this.password.equals(pass)
+		return this.password.equals(pass)
+	}
+	
+	def ingresoValido(String password){
+		return esIngresoValido.apply(password)
 	}
 	
 	override equals(Object o){

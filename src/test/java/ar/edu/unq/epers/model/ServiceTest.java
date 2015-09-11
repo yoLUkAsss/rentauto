@@ -105,8 +105,7 @@ public class ServiceTest {
      public void ingresoUsuarioValido() throws UsuarioNoExisteException,IngresoNoValidoException
 	{
          when(unUserDao.getUsuarioPorUsername("pepita")).thenReturn(unUsuario)	;
-         when(unUsuario.passValida("1234")).thenReturn(true);
-         when(unUsuario.getValidez()).thenReturn(true);
+         when(unUsuario.ingresoValido("1234")).thenReturn(true);
      	
          assertEquals(unUsuario, sut.ingresarUsuario("pepita", "1234"));    
 	}

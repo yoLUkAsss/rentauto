@@ -52,7 +52,7 @@ class Service {
 			throw new UsuarioNoExisteException
 		}
 
-		if(!user.passValida(password) || !user.validez){
+		if(!user.ingresoValido(password)){
 			throw new IngresoNoValidoException
 		}
 		return user
