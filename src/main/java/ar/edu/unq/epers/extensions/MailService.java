@@ -1,5 +1,6 @@
 package ar.edu.unq.epers.extensions;
 
+import ar.edu.unq.epers.excepciones.EnviarMailException;
 import ar.edu.unq.epers.model.Mail;
 
 public interface MailService {

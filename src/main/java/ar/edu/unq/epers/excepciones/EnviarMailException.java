@@ -1,4 +1,4 @@
-package ar.edu.unq.epers.extensions;
+package ar.edu.unq.epers.excepciones;
 
 public class EnviarMailException extends Exception {
 

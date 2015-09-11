@@ -4,7 +4,7 @@ import org.junit.Test
 
 import static org.junit.Assert.*
 import static ar.edu.unq.epers.extensions.DateExtensions.*
-
+ 
 class ValidarReservasTest extends AbstractTest {
 	@Test
 	def reservaUnica() {

@@ -1,10 +1,11 @@
-package ar.edu.unq.epers.model
+package ar.edu.unq.epers.homes
 
+import ar.edu.unq.epers.homes.UserDao
 import org.junit.Before
 import org.junit.Test
 
 import static org.junit.Assert.*
-import static org.mockito.Mockito.*
+import ar.edu.unq.epers.model.Usuario
 
 class UserDaoTest {
 	

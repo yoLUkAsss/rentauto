@@ -11,7 +11,7 @@ class Ubicacion {
 		this.nombre = nombre
 	}
 }
-
+ 
 @Accessors 
 class UbicacionVirtual extends Ubicacion{
 	List<Ubicacion> ubicaciones

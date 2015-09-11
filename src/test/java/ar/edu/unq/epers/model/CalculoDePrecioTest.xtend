@@ -29,4 +29,4 @@ class CalculoDePrecioTest extends AbstractTest {
 		assertEquals(auto.costoTotal, auto.costoBase - 200, 0)
 	}
 	
-}
+} 

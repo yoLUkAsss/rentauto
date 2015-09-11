@@ -6,7 +6,7 @@ import static org.junit.Assert.*
 import static ar.edu.unq.epers.extensions.DateExtensions.*
 
 class UbicacionPorFechaTest extends AbstractTest {
-		
+		 
 	@Test
 	def ubicacionReservasVacias(){
 		assertEquals(auto.ubicacionInicial, auto.ubicacion)

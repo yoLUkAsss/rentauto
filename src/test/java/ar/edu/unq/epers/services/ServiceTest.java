@@ -1,16 +1,24 @@
 /**
  * 
  */
-package ar.edu.unq.epers.model;
+package ar.edu.unq.epers.services;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import ar.edu.unq.epers.excepciones.IngresoNoValidoException;
+import ar.edu.unq.epers.excepciones.UsuarioNoExisteException;
+import ar.edu.unq.epers.excepciones.UsuarioYaExisteException;
+import ar.edu.unq.epers.excepciones.ValidacionException;
 import ar.edu.unq.epers.extensions.MailService;
-import junit.framework.Assert;
-import static org.mockito.Mockito.*;
+import ar.edu.unq.epers.homes.UserDao;
+import ar.edu.unq.epers.model.Usuario;
 
 
 public class ServiceTest {

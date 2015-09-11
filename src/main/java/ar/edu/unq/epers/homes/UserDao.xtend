@@ -1,10 +1,11 @@
-package ar.edu.unq.epers.model
+package ar.edu.unq.epers.homes
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import org.eclipse.xtext.xbase.lib.Functions.Function1
+import ar.edu.unq.epers.model.Usuario
 
 class UserDao {
 	
@@ -22,7 +23,7 @@ class UserDao {
 		ps.setString(8,u.password);
 	}
 	
-	def  ejecutame(Function1<Connection, Usuario> bloque) {
+	def ejecutame(Function1<Connection, Usuario> bloque) {
 		try{
 			this.conn = this.getConnection()
 		    val usuario = bloque.apply(conn)
@@ -35,11 +36,8 @@ class UserDao {
 			if(conn != null)
 				conn.close();
 	    }
-     
 	}
-	
-	
-	
+
 	def void delete(String username){
 		this.ejecutame([connection | 
 			this.ps =connection.prepareStatement("delete from usuario where username=?");
@@ -48,7 +46,6 @@ class UserDao {
 			return null;							
 		])
 	}
-	
 	
 	def save(Usuario u){
 		this.ejecutame([connection |
@@ -94,23 +91,24 @@ class UserDao {
 	//Null en caso contrario
 	
 	def private Usuario getUsuario(String atributo , String valorBuscado){
-		
-		
-			this.ejecutame([connection | 
-				this.ps = connection.prepareStatement("Select * from usuario  where "+ atributo + "=?");
-					
-				ps.setString(1,valorBuscado)
-				var ResultSet rs = ps.executeQuery();
-				if(rs.next()){
-					return new Usuario(rs.getString("nombre"),rs.getString("apellido"),
-						rs.getString("username"),rs.getString("email"),rs.getString("fechaNacimiento"),rs.getBoolean("validez"),rs.getString("codigo"),rs.getString("password"))
-						
-				}
-				return null
-			
-			])
-		
-
+		this.ejecutame([connection | 
+						this.ps = connection.prepareStatement("Select * from usuario  where ?=?");	
+						ps.setString(1,atributo)
+						ps.setString(2,valorBuscado)
+						var ResultSet rs = ps.executeQuery();
+						if(rs.next()){
+							return new Usuario(
+								rs.getString("nombre"),
+								rs.getString("apellido"),
+								rs.getString("username"),
+								rs.getString("email"),
+								rs.getString("fechaNacimiento"),
+								rs.getBoolean("validez"),
+								rs.getString("codigo"),
+								rs.getString("password"))
+						}
+						return null
+						])
 	}
 	
 }
