@@ -13,7 +13,7 @@ class Service {
 
 	def registrarUsuario(Usuario nuevoUsuario) throws UsuarioYaExisteException{
 
-		var u = udao.getUsuario(nuevoUsuario.nombreDeUsuario);
+		var u = udao.getUsuarioPorUsername(nuevoUsuario.nombreDeUsuario);
 		nuevoUsuario.validez = false;
 		nuevoUsuario.codigo = new Integer(nuevoUsuario.hashCode()).toString()
 		if (u != null && !u.validez) {
@@ -47,12 +47,12 @@ class Service {
 
 	def Usuario ingresarUsuario(String userName, String password) throws UsuarioNoExisteException{
 
-		var Usuario user = udao.getUsuario(userName);
+		var Usuario user = udao.getUsuarioPorUsername(userName);
 		if (user == null) {
 			throw new UsuarioNoExisteException
 		}
 
-		if(!user.passValida(password) || !user.validez){
+		if(!user.ingresoValido(password)){
 			throw new IngresoNoValidoException
 		}
 		return user
@@ -61,7 +61,7 @@ class Service {
 
 	def cambiarPassword(String userName, String password, String nuevaPassword) throws NuevaPasswordInvalida{
 		// inviariante userNameSiempreCorrecto?? o tiramos exception de pas, o username invalid?
-		var u = udao.getUsuario(userName)
+		var u = udao.getUsuarioPorUsername(userName)
 		if (u != null && u.passValida(password) && u.password != nuevaPassword) {
 			u.password = nuevaPassword
 			udao.update(u);
