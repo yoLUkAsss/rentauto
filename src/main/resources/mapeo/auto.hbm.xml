@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+<hibernate-mapping>
+    <class name="ar.edu.unq.epers.model.Auto" table="automovil" >
+        <id name="id" type="java.lang.Integer">
+            <column name="auto_id" />
+            <generator class="identity" />
+        </id>
+		<property name="patente" type="java.lang.String">
+            <column name="auto_patente" length="30" not-null="true" unique="true"/>
+        </property>
+        <property name="marca" type="java.lang.String">
+            <column name="auto_marca" length="20" not-null="true" unique="false" />
+        </property>
+        <property name="modelo" type="java.lang.String">
+            <column name="auto_modelo" length="20" not-null="true" unique="false" />
+        </property>
+        <property name="anio" type="java.lang.Integer">
+            <column name="auto_anio" not-null="false" unique="false"/>
+        </property>
+        <property name="costoBase" type="java.lang.Double">
+            <column name="auto_costoBase" not-null="false" unique="false"/>
+        </property>
+        
+        <many-to-one name="categoria" class="ar.edu.unq.epers.model.Categoria">
+        		<column name="auto_categoria"></column>
+        </many-to-one>
+        		
+        <bag name = "reservas">
+        	<key column="auto_reserva"/>
+        	<one-to-many class="ar.edu.unq.epers.model.Reserva"/>
+        </bag>		
+        		
+		<many-to-one name="ubicacionInicial" class="ar.edu.unq.epers.model.Ubicacion">
+			<column name="auto_ubicacionInicial"></column>
+		</many-to-one>
+		
+    </class>
+</hibernate-mapping>
