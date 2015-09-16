@@ -5,6 +5,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
  
 @Accessors 
 class Empresa {
+	Integer id
 	String cuit
 	String nombreEmpresa
 	
@@ -14,6 +15,10 @@ class Empresa {
 	int cantidadMaximaDeReservasActivas
 	Double valorMaximoPorDia
 	List<Categoria> categoriasAdmitidas = newArrayList
+	
+	
+	new(){}
+	
 	
 	def agregarReserva(Reserva unaReserva){
 		unaReserva.validarReserva

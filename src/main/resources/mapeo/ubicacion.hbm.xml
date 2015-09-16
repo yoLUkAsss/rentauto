@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+<hibernate-mapping>
+    <class name="ar.edu.unq.epers.model.Ubicacion" table="ubicacion" >
+        <id name="id" type="java.lang.Integer">
+            <column name="ubicacion_id" />
+            <generator class="identity" />
+        </id>
+        
+        <property name="nombre" type="java.lang.String">
+        	<column name="ubicacion_nombre" length="30" not-null="true"/>
+        </property>
+        
+        <joined-subclass name="ar.edu.unq.epers.model.UbicacionVirtual" table="ubicacion_virtual">
+        	<key column="ubicacion_id"/>
+        	<bag name="ubicaciones" cascade="save-update">
+        		<key column="ubicacionVirtual_ubicacion"/>
+        		<one-to-many class="ar.edu.unq.epers.model.Ubicacion"/>
+        	</bag>
+        </joined-subclass>
+	</class>
+</hibernate-mapping> 
+        
+        

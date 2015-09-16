@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+<hibernate-mapping>
+    <class name="ar.edu.unq.epers.model.Categoria" table="categoria">
+        <id name="id" type="java.lang.Integer">
+            <column name="categoria_id" />
+            <generator class="identity" />
+        </id>
+        
+        <property name="nombre" type="string">
+        	<column name="categoria_nombre" length="30">
+        	</column>
+        </property>
+        
+        <joined-subclass name="ar.edu.unq.epers.model.Turismo" table="categoria_turismo">
+        	<key column="categoria_id"/>
+        </joined-subclass>
+        
+        <joined-subclass name="ar.edu.unq.epers.model.Familiar" table="categoria_familiar">
+        	<key column="categoria_id"/>
+        </joined-subclass>
+        
+        <joined-subclass name="ar.edu.unq.epers.model.Deportivo" table="categoria_deportivo">
+        	<key column="categoria_id"/>
+        </joined-subclass>
+        
+        <joined-subclass name="ar.edu.unq.epers.model.TodoTerreno" table="categoria_terreno">
+        	<key column="categoria_id"/>
+        </joined-subclass>
+    </class>
+</hibernate-mapping>

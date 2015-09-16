@@ -7,6 +7,7 @@ public class Mail {
 	private String subject;
 	private String body;
 	
+	
 	public Mail(String from,String to,String subject, String body){
 		this.setFrom(from);
 		this.setTo(to);

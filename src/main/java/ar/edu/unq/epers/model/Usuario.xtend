@@ -3,8 +3,9 @@ package ar.edu.unq.epers.model
 import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
-class Usuario {
-	 
+class Usuario implements IUsuario {
+	
+	Integer id 
 	String nombre;
 	String apellido;
 	String nombreDeUsuario;
@@ -13,7 +14,10 @@ class Usuario {
 	String password;
 	Boolean validez;
 	String codigo;
-
+	
+	
+	
+	new(){}
 	
 	new(String nombre,
 	String apellido,
@@ -56,6 +60,14 @@ class Usuario {
 		}else{
 			return false;
 		}
+	}
+	
+	override agregarReserva(Reserva unaReserva) {
+		
+	}
+	
+	override getReservas() {
+		
 	}
 	
 }

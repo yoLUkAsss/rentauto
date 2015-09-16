@@ -5,8 +5,12 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors 
 class Ubicacion {
+	Integer id
 	String nombre
+
 	
+	new(){}
+
 	new(String nombre){
 		this.nombre = nombre
 	}

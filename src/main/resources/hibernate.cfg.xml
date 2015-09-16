@@ -15,6 +15,11 @@
         <property name="show_sql">true</property>
 
         <mapping resource="mapeo/auto.hbm.xml"></mapping>
+        <mapping resource="mapeo/reserva.hbm.xml"></mapping>
+        <mapping resource="mapeo/ubicacion.hbm.xml"></mapping>
+		<mapping resource="mapeo/categoria.hbm.xml"></mapping>
+		<mapping resource="mapeo/empresa.hbm.xml"></mapping>
+		<mapping resource="mapeo/usuario.hbm.xml"></mapping>
 		
     </session-factory>
 </hibernate-configuration>

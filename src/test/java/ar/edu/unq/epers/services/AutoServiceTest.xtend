@@ -9,12 +9,12 @@ import ar.edu.unq.epers.model.Categoria
 
 class AutoServiceTest {
 	
-	Categoria depor = new Deportivo()
+	Deportivo depor = new Deportivo()
 	Ubicacion urlin = new Ubicacion("urlingam")
-	
+	 
 	@Before
 	def void startUp(){
-		new AutoService().crearAuto("fiat","98",2001, "mgx 123",depor,12.3,urlin);
+		new AutoService().crearAuto("fiat","98",2001, "mgx 123",depor,12.3,urlin)
 	}
 	
 	@Test

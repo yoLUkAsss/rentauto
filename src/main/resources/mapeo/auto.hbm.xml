@@ -4,38 +4,20 @@
  
 <hibernate-mapping>
     <class name="ar.edu.unq.epers.model.Auto" table="automovil" >
-        <id name="id" type="java.lang.Integer">
+        <id name="id" type="java.lang.Integer" >
             <column name="auto_id" />
             <generator class="identity" />
         </id>
-		<property name="patente" type="java.lang.String">
-            <column name="auto_patente" length="30" not-null="true" unique="true"/>
-        </property>
-        <property name="marca" type="java.lang.String">
-            <column name="auto_marca" length="20" not-null="true" unique="false" />
-        </property>
-        <property name="modelo" type="java.lang.String">
-            <column name="auto_modelo" length="20" not-null="true" unique="false" />
-        </property>
-        <property name="anio" type="java.lang.Integer">
-            <column name="auto_anio" not-null="false" unique="false"/>
-        </property>
-        <property name="costoBase" type="java.lang.Double">
-            <column name="auto_costoBase" not-null="false" unique="false"/>
-        </property>
-        
-        <many-to-one name="categoria" class="ar.edu.unq.epers.model.Categoria">
-        		<column name="auto_categoria"></column>
-        </many-to-one>
-        		
-        <bag name = "reservas">
+		<property name="patente" type="string" column="auto_patente" length="30" not-null="true" unique="true"/>
+        <property name="marca" type="string" column="auto_marca" length="20"/>
+        <property name="modelo" type="string" column="auto_modelo" length="20"/>
+        <property name="anio" type="java.lang.Integer" column="auto_anio" not-null="false" unique="false"/>
+        <property name="costoBase" type="java.lang.Double" column="auto_costoBase" not-null="false" unique="false"/>
+        <many-to-one name="categoria" class="ar.edu.unq.epers.model.Categoria" column="auto_categoria"/>
+        <many-to-one name="ubicacionInicial" class="ar.edu.unq.epers.model.Ubicacion" column="auto_ubicacionInicial"/>		
+        <bag name="reservas" cascade="save-update">
         	<key column="auto_reserva"/>
         	<one-to-many class="ar.edu.unq.epers.model.Reserva"/>
-        </bag>		
-        		
-		<many-to-one name="ubicacionInicial" class="ar.edu.unq.epers.model.Ubicacion">
-			<column name="auto_ubicacionInicial"></column>
-		</many-to-one>
-		
+        </bag>	
     </class>
 </hibernate-mapping>
