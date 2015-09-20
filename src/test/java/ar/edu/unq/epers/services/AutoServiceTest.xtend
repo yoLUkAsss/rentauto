@@ -24,8 +24,8 @@ class AutoServiceTest {
 		Assert.assertEquals("mgx 123", auto.getPatente());
 		Assert.assertEquals("98", auto.getModelo());
 		Assert.assertEquals(2001, auto.getAnio());
-		Assert.assertEquals(depor,auto.categoria)
-		Assert.assertEquals(urlin,auto.ubicacionInicial)
+		Assert.assertEquals(depor.id,auto.categoria.id)
+		Assert.assertEquals(urlin.id,auto.ubicacionInicial.id)
 	}
 	
 }

@@ -17,7 +17,15 @@ class Empresa {
 	List<Categoria> categoriasAdmitidas = newArrayList
 	
 	
-	new(){}
+	new(String cuit , String nombre , int cmdra , Double vmpd){
+		this.cuit = cuit
+		this.nombreEmpresa = nombre
+		this.cantidadMaximaDeReservasActivas = cmdra
+		this.valorMaximoPorDia = vmpd
+	}
+	
+	new() {
+	}
 	
 	
 	def agregarReserva(Reserva unaReserva){
