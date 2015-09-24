@@ -28,6 +28,7 @@ class Auto {
 		this.costoBase = costoBase
 		this.categoria = categoria
 		this.ubicacionInicial = ubicacionInicial
+		this.reservas = newArrayList
 	}
 
 	def getUbicacion(){
@@ -37,8 +38,10 @@ class Auto {
 	def ubicacionParaDia(Date unDia){
 		val encontrado = reservas.findLast[ it.fin <= unDia ]
 		if(encontrado != null){
+			print(encontrado.destino)
 			return encontrado.destino
 		}else{
+			print(ubicacionInicial)
 			return ubicacionInicial
 		}
 	}

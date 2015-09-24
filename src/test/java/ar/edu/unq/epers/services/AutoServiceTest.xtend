@@ -5,11 +5,10 @@ import org.junit.Test
 import ar.edu.unq.epers.model.Deportivo
 import ar.edu.unq.epers.model.Ubicacion
 import org.junit.Assert
-import ar.edu.unq.epers.model.Categoria
 
 class AutoServiceTest {
 	
-	Deportivo depor = new Deportivo()
+	Deportivo depor = new Deportivo
 	Ubicacion urlin = new Ubicacion("urlingam")
 	 
 	@Before
