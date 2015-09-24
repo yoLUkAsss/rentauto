@@ -14,6 +14,13 @@ class Ubicacion {
 	new(String nombre){
 		this.nombre = nombre
 	}
+	
+	override equals(Object o) {
+		if (o != null && o instanceof Ubicacion){
+			return this.nombre.equals((o as Ubicacion).nombre)
+		}
+		return false
+	}
 }
  
 @Accessors 
