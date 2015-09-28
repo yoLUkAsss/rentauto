@@ -10,6 +10,8 @@ import ar.edu.unq.epers.model.Reserva
 import ar.edu.unq.epers.homes.ReservaHome
 import ar.edu.unq.epers.model.Usuario
 
+import ar.edu.unq.epers.model.Categoria
+
 class ReservaDeAutosService {
 	
 	/**
@@ -25,6 +27,15 @@ class ReservaDeAutosService {
 			var List<Auto> autosTotales = new AutoHome().obtenerTodosLosAutos
 			autosTotales.filter[each | each.ubicacionParaDia(determinadoDia).equals(determinadaUbicacion)].size
 		]
+	}
+	
+	def consultaDeReserva(Ubicacion ubicacionInicial, Ubicacion ubicacionFinal, Date fechaInicio, Date fechaFinal, Categoria categoria) {
+		SessionManager.runInSession[|
+			var List<Auto> autosTotales = new AutoHome().obtenerTodosLosAutos;
+			autosTotales.filter[each | each.ubicacionParaDia(fechaInicio).equals(ubicacionInicial) && each.estaLibre(fechaInicio,fechaFinal) && each.isCategory(categoria)] as List<Auto>			
+		]
+		
+		
 	}
 	
 	

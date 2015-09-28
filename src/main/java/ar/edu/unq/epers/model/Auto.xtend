@@ -35,6 +35,10 @@ class Auto {
 		this.ubicacionParaDia(new Date());
 	}
 	
+	def isCategory(Categoria c){
+		categoria.equals(c);
+	}
+	
 	def ubicacionParaDia(Date unDia){
 		val encontrado = reservas.findLast[ it.fin <= unDia ]
 		if(encontrado != null){
