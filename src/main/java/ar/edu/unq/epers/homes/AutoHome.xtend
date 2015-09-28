@@ -2,6 +2,7 @@ package ar.edu.unq.epers.homes
 
 import ar.edu.unq.epers.model.Auto
 import java.util.List
+import org.hibernate.Query
 
 class AutoHome {
 	
@@ -19,6 +20,8 @@ class AutoHome {
 	 * @see ar.edu.unq.epers.model.Auto
 	 */
 	def List<Auto> obtenerTodosLosAutos() {
-		return SessionManager.getSession().createQuery("from Auto").list
+		var Query q = SessionManager.getSession().createQuery("from Auto")
+		var List<Auto> autos = q.list()
+		return autos;
 	}
 }

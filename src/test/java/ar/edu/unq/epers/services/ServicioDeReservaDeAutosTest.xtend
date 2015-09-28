@@ -23,15 +23,15 @@ class ServicioDeReservaDeAutosTest {
 	def void startUp() {
 		lanus = new Ubicacion("Lanus")
 		berazategui = new Ubicacion("Berazategui")
-		familiar = new Familiar
-		deportivo = new Deportivo
-		familiar2 = new Familiar
-		familiar3 = new Familiar
+		familiar = new Familiar("Familiar")
+		deportivo = new Deportivo("Deportivo")
+		familiar2 = new Familiar("Familiar")
+		familiar3 = new Familiar("Familiar")
 		servicioAutos = new AutoService
-		servicioAutos.crearAuto("Peugeot","504",1998,"456ART",familiar,10.000,lanus)
+		servicioAutos.crearAuto("Peugeot","504",1998,"456ART",deportivo,10.000,lanus)
 		servicioAutos.crearAuto("Fiat","Palio",2001,"982DJS",familiar,12.500,berazategui)
 		servicioAutos.crearAuto("Ferrari","cualquiera",2005,"3727HYT3",deportivo,270.000,lanus)
-		servicioAutos.crearAuto("Ferrari","cualquiera",2015,"3727HYT3",deportivo,15000.000,berazategui)
+		servicioAutos.crearAuto("Ferrari","cualquiera",2015,"3727HZT3",deportivo,15000.000,berazategui)
 		SUT = new ReservaDeAutosService
 	}
 	
@@ -56,9 +56,10 @@ class ServicioDeReservaDeAutosTest {
 		var Date fechaFin = cal.time
 		var Auto ferrari1= new Auto("Ferrari","cualquiera",2005,"3727HYT3",deportivo,270.000,lanus)
 		var Auto ferrari2= new Auto("Ferrari","cualquiera",2015,"3727HYT3",deportivo,15000.000,berazategui)
+		var Auto peudgeot = new Auto("Peugeot","504",1998,"456ART",deportivo,10.000,lanus)
 		
-		var resultado = SUT.consultaDeReserva(lanus,berazategui,fechaInicio,fechaFin,familiar)
-		Assert.assertTrue(resultado.contains(ferrari1) && resultado.contains(ferrari2))
+		var resultado = SUT.consultaDeReserva(lanus,berazategui,fechaInicio,fechaFin,deportivo)
+		Assert.assertTrue(resultado.contains(ferrari1) && resultado.contains(peudgeot))
 	}
 	
 	
