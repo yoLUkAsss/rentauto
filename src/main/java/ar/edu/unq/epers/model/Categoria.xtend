@@ -24,6 +24,8 @@ abstract class Categoria {
 
 class Turismo extends Categoria{
 	
+	new(){}
+	
 	new(String nombre){
 		super(nombre)
 	}
