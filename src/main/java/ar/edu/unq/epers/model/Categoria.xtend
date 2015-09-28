@@ -9,11 +9,26 @@ abstract class Categoria {
 	
 	new(){}
 	
+	new(String nombre){
+		this.nombre = nombre;
+	}
+
+	override boolean equals(Object o){
+		if (o != null && o instanceof Categoria) {
+			var categoria = o as Categoria;
+			return this.nombre.equals(categoria.nombre);		
+		}
+	}
+	
 	abstract def Double calcularCosto(Auto auto)
 }
 
 
 class Turismo extends Categoria{
+	
+	new(String nombre){
+		super(nombre)
+	}
 	
 	override calcularCosto(Auto auto) {
 		if(auto.anio > 2000){
@@ -25,6 +40,11 @@ class Turismo extends Categoria{
 }
 
 class Familiar extends Categoria{
+	new(){}
+	
+	new(String nombre){
+		super(nombre)
+	}
 	
 	override calcularCosto(Auto auto) {
 		return auto.costoBase + 200
@@ -32,6 +52,11 @@ class Familiar extends Categoria{
 }
 
 class Deportivo extends Categoria{
+	new(){}
+	
+	new(String nombre){
+		super(nombre)
+	}
 	
 	override calcularCosto(Auto auto) {
 		if(auto.anio > 2000){
@@ -43,6 +68,11 @@ class Deportivo extends Categoria{
 }
 
 class TodoTerreno extends Categoria{
+	new(){}
+	
+	new(String nombre){
+		super(nombre)
+	}
 	
 	override calcularCosto(Auto auto) {
 		auto.costoBase * 1.10

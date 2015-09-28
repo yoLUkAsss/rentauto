@@ -28,7 +28,6 @@ class UsuarioService {
 		SessionManager.runInSession([
 			var usuario = new UsuarioHome().get(id)
 			usuario.agregarReserva(reserva)
-			new ReservaHome().save(reserva)
 			new UsuarioHome().save(usuario)
 			usuario
 		]);

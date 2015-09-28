@@ -58,8 +58,19 @@ class Auto {
 		reservas.sortInplaceBy[inicio]
 	}
 	
+	override equals(Object o){
+		if (o != null && o instanceof Auto) {
+			var Auto a = o as Auto
+			return this.patente.equals(a.patente)
+		}
+		return false;
+	}
+	
 	def costoTotal(){
 		return categoria.calcularCosto(this)
 	}
+	
+		
+	
 	
 }

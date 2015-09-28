@@ -43,7 +43,6 @@ class AutoService {
 		SessionManager.runInSession([
 			var auto = new AutoHome().get(id)
 			auto.agregarReserva(reserva)
-			new ReservaHome().save(reserva)
 			new AutoHome().save(auto)
 			auto
 		]);
