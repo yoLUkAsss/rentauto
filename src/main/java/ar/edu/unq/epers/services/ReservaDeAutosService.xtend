@@ -6,6 +6,7 @@ import java.util.List
 import ar.edu.unq.epers.model.Auto
 import ar.edu.unq.epers.model.Ubicacion
 import java.util.Date
+import ar.edu.unq.epers.model.Categoria
 
 class ReservaDeAutosService {
 	
@@ -22,6 +23,15 @@ class ReservaDeAutosService {
 			var List<Auto> autosTotales = new AutoHome().obtenerTodosLosAutos
 			autosTotales.filter[each | each.ubicacionParaDia(determinadoDia).equals(determinadaUbicacion)].size
 		]
+	}
+	
+	def consultaDeReserva(Ubicacion ubicacionInicial, Ubicacion ubicacionFinal, Date fechaInicio, Date fechaFinal, Categoria categoria) {
+		SessionManager.runInSession[|
+			var List<Auto> autosTotales = new AutoHome().obtenerTodosLosAutos;
+			autosTotales.filter[each | each.ubicacionParaDia(fechaInicio).equals(ubicacionInicial) && each.estaLibre(fechaInicio,fechaFinal) && each.isCategory(categoria)] as List<Auto>			
+		]
+		
+		
 	}
 	
 	

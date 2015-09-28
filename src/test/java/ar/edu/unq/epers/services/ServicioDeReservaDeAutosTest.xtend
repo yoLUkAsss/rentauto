@@ -16,7 +16,7 @@ class ServicioDeReservaDeAutosTest {
 	
 	ReservaDeAutosService SUT
 	Ubicacion lanus;Ubicacion berazategui
-	Categoria familiar;Categoria deportivo
+	Categoria familiar;Categoria deportivo;Categoria familiar2;Categoria familiar3;
 	AutoService servicioAutos
 	
 	@Before
@@ -25,10 +25,13 @@ class ServicioDeReservaDeAutosTest {
 		berazategui = new Ubicacion("Berazategui")
 		familiar = new Familiar
 		deportivo = new Deportivo
+		familiar2 = new Familiar
+		familiar3 = new Familiar
 		servicioAutos = new AutoService
 		servicioAutos.crearAuto("Peugeot","504",1998,"456ART",familiar,10.000,lanus)
 		servicioAutos.crearAuto("Fiat","Palio",2001,"982DJS",familiar,12.500,berazategui)
 		servicioAutos.crearAuto("Ferrari","cualquiera",2005,"3727HYT3",deportivo,270.000,lanus)
+		servicioAutos.crearAuto("Ferrari","cualquiera",2015,"3727HYT3",deportivo,15000.000,berazategui)
 		SUT = new ReservaDeAutosService
 	}
 	
@@ -43,4 +46,20 @@ class ServicioDeReservaDeAutosTest {
 		
 		Assert.assertEquals(2,resultado)
 	}
+	
+	@Test
+	def void testConsultaDeReserva(){
+		var Date fechaInicio = Calendar.instance.time
+		var Calendar cal = Calendar.instance
+		cal.setTime(fechaInicio)
+		cal.add(Calendar.DATE, 10)
+		var Date fechaFin = cal.time
+		var Auto ferrari1= new Auto("Ferrari","cualquiera",2005,"3727HYT3",deportivo,270.000,lanus)
+		var Auto ferrari2= new Auto("Ferrari","cualquiera",2015,"3727HYT3",deportivo,15000.000,berazategui)
+		
+		var resultado = SUT.consultaDeReserva(lanus,berazategui,fechaInicio,fechaFin,familiar)
+		Assert.assertTrue(resultado.contains(ferrari1) && resultado.contains(ferrari2))
+	}
+	
+	
 }
