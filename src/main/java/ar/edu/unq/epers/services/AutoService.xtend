@@ -8,7 +8,6 @@ import ar.edu.unq.epers.model.Categoria
 import ar.edu.unq.epers.homes.CategoriaHome
 import ar.edu.unq.epers.homes.UbicacionHome
 import ar.edu.unq.epers.model.Reserva
-import java.util.List
 import ar.edu.unq.epers.homes.ReservaHome
 
 class AutoService {

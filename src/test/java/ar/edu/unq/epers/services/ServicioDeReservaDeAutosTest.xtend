@@ -11,6 +11,8 @@ import ar.edu.unq.epers.model.Deportivo
 import ar.edu.unq.epers.homes.AutoHome
 import java.util.Date
 import java.util.Calendar
+import static ar.edu.unq.epers.extensions.DateExtensions.*
+import ar.edu.unq.epers.model.Usuario
 
 class ServicioDeReservaDeAutosTest {
 	
@@ -18,9 +20,14 @@ class ServicioDeReservaDeAutosTest {
 	Ubicacion lanus;Ubicacion berazategui
 	Categoria familiar;Categoria deportivo
 	AutoService servicioAutos
+	Auto auto
+	Usuario usuario
+	
+	
 	
 	@Before
 	def void startUp() {
+		
 		lanus = new Ubicacion("Lanus")
 		berazategui = new Ubicacion("Berazategui")
 		familiar = new Familiar
@@ -30,6 +37,8 @@ class ServicioDeReservaDeAutosTest {
 		servicioAutos.crearAuto("Fiat","Palio",2001,"982DJS",familiar,12.500,berazategui)
 		servicioAutos.crearAuto("Ferrari","cualquiera",2005,"3727HYT3",deportivo,270.000,lanus)
 		SUT = new ReservaDeAutosService
+		auto= new Auto("Peugeot","504",2000,"587ARJ",familiar,10.000,lanus)
+		usuario= new Usuario()
 	}
 	
 	/**
@@ -43,4 +52,11 @@ class ServicioDeReservaDeAutosTest {
 		
 		Assert.assertEquals(2,resultado)
 	}
+	
+	
+	
+	
+	
+	
+	
 }

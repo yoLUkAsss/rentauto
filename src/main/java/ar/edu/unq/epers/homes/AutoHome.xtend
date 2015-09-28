@@ -23,8 +23,6 @@ class AutoHome {
 		return SessionManager.getSession().createQuery("from Auto").list
 	}
 	
-	def List<Reserva> getReservas() {
-		return SessionManager.getSession().createQuery("SELECT reservas From Auto").list
-	}
+
 	
 }
