@@ -59,12 +59,18 @@ class Auto {
 	}
 	
 	override equals(Object o){
-		var Auto a = o as Auto
-		return this.patente.equals(a.patente)
+		if (o != null && o instanceof Auto) {
+			var Auto a = o as Auto
+			return this.patente.equals(a.patente)
+		}
+		return false;
 	}
 	
 	def costoTotal(){
 		return categoria.calcularCosto(this)
 	}
+	
+		
+	
 	
 }

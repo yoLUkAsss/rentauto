@@ -14,8 +14,10 @@ abstract class Categoria {
 	}
 
 	override boolean equals(Object o){
-		var categoria = o as Categoria;
-		return this.nombre.equals(categoria.nombre);
+		if (o != null && o instanceof Categoria) {
+			var categoria = o as Categoria;
+			return this.nombre.equals(categoria.nombre);		
+		}
 	}
 	
 	abstract def Double calcularCosto(Auto auto)

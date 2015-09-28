@@ -6,8 +6,15 @@ import java.util.List
 import ar.edu.unq.epers.model.Auto
 import ar.edu.unq.epers.model.Ubicacion
 import java.util.Date
+import ar.edu.unq.epers.model.Reserva
+import ar.edu.unq.epers.homes.ReservaHome
+import ar.edu.unq.epers.model.Usuario
+
 import ar.edu.unq.epers.model.Categoria
 import java.util.ArrayList
+import ar.edu.unq.epers.homes.UsuarioHome
+import ar.edu.unq.epers.excepciones.UsuarioNoExisteException
+import ar.edu.unq.epers.excepciones.AutoNoExisteException
 
 class ReservaDeAutosService {
 	
@@ -54,5 +61,34 @@ class ReservaDeAutosService {
 		
 	}
 	
+	
+	def crearReserva(Integer numeroSolicitud,Ubicacion origen,Ubicacion destino,Date inicio,Date fin,Auto automovil,Usuario usu) {
+	    
+	    SessionManager.runInSession([
+	    	
+	    	var List<Auto> autos= new AutoHome().obtenerTodosLosAutos
+	    	var auto= autos.findFirst[au|au.equals(automovil)]
+	    	if (auto==null){
+	    		
+	    		throw new AutoNoExisteException
+	    	}
+	    	
+	    	var List<Usuario>usuarios=new UsuarioHome().obtenerTodosLosUsuarios
+	    	var usuario= usuarios.findFirst[u|u.equals(usu)]
+			if (usuario==null){
+				
+			  throw	new UsuarioNoExisteException
+			}
+			
+			var reserva = new Reserva(numeroSolicitud,origen,destino,inicio,fin,auto,usuario);
+			new AutoService().guardarReserva(auto.id,reserva)
+			new UsuarioService().guardarReserva(usuario.id,reserva)
+			new ReservaHome().save(reserva)
+			reserva
+			
+		]);
+	}
+
+    
 	
 }
