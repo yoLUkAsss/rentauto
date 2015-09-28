@@ -6,6 +6,9 @@ import java.util.List
 import ar.edu.unq.epers.model.Auto
 import ar.edu.unq.epers.model.Ubicacion
 import java.util.Date
+import ar.edu.unq.epers.model.Reserva
+import ar.edu.unq.epers.homes.ReservaHome
+import ar.edu.unq.epers.model.Usuario
 
 class ReservaDeAutosService {
 	
@@ -24,5 +27,21 @@ class ReservaDeAutosService {
 		]
 	}
 	
+	
+	def crearReserva(Integer numeroSolicitud,Ubicacion origen,Ubicacion destino,Date inicio,Date fin,Auto auto,Usuario usuario){
+	    
+	    SessionManager.runInSession([
+			var reserva = new Reserva(numeroSolicitud,origen,destino,inicio,fin,auto,usuario);
+			new AutoService().guardarReserva(auto.id,reserva)
+			new UsuarioService().guardarReserva(usuario.id,reserva)
+			reserva
+			
+		]);
+	
+	
+	
+	
+	}
+
 	
 }

@@ -5,6 +5,10 @@ import org.junit.Test
 import ar.edu.unq.epers.model.Deportivo
 import ar.edu.unq.epers.model.Ubicacion
 import org.junit.Assert
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import ar.edu.unq.epers.model.Reserva
 
 class AutoServiceTest {
 	
@@ -15,7 +19,7 @@ class AutoServiceTest {
 	def void startUp(){
 		new AutoService().crearAuto("fiat","98",2001, "mgx 123",depor,12.3,urlin)
 	}
-	
+ 
 	@Test
 	def consultar(){
 		var auto = new AutoService().consultarAuto(1);
@@ -27,4 +31,8 @@ class AutoServiceTest {
 		Assert.assertEquals(urlin.id,auto.ubicacionInicial.id)
 	}
 	
+	
+	
+  
+  
 }
