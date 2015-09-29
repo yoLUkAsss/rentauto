@@ -37,7 +37,6 @@ class SessionManager {
 			session.flush();
 			transaction.commit();
 		} catch (Exception e) {
-			println("Entre aca")
 			if (transaction != null)
 				transaction.rollback();
 			throw new RuntimeException(e);

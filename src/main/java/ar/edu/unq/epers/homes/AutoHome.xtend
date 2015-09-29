@@ -5,7 +5,7 @@ import java.util.List
 
 import ar.edu.unq.epers.model.Reserva
 import org.hibernate.Query
-
+import ar.edu.unq.epers.model.Categoria
 
 class AutoHome {
 	
@@ -24,6 +24,13 @@ class AutoHome {
 	 */
 	def List<Auto> obtenerTodosLosAutos() {
 		var Query q = SessionManager.getSession().createQuery("from Auto")
+		var List<Auto> autos = q.list()
+		return autos;
+	}
+	
+	def List<Auto> obtenerTodosLosAutosDeCategoria(Categoria categoria) {
+		var Query q = SessionManager.getSession().createQuery("from Auto where auto_categoria= :cat")
+		q.setEntity("cat", categoria)
 		var List<Auto> autos = q.list()
 		return autos;
 	}

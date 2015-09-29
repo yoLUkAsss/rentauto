@@ -47,14 +47,14 @@ class ReservaDeAutosService {
 	 */
 	def consultaDeReserva(Ubicacion ubicacionInicial, Ubicacion ubicacionFinal, Date fechaInicio, Date fechaFinal, Categoria categoria) {
 		SessionManager.runInSession[|
-			var List<Auto> autosTotales = new AutoHome().obtenerTodosLosAutos;
+			var List<Auto> autosTotales = new AutoHome().obtenerTodosLosAutosDeCategoria(categoria);
 			var List<Auto> autosADevolver = new ArrayList<Auto>();
 			for(Auto each : autosTotales){
-				if( each.ubicacionParaDia(fechaInicio).equals(ubicacionInicial) && each.estaLibre(fechaInicio,fechaFinal) && each.isCategory(categoria)){
+				if( each.ubicacionParaDia(fechaInicio).equals(ubicacionInicial) && each.estaLibre(fechaInicio,fechaFinal)){
 					autosADevolver.add(each);
 				}
 			}
-			autosADevolver
+			return autosADevolver
 			//autosTotales.filter[each | each.ubicacionParaDia(fechaInicio).equals(ubicacionInicial) && each.estaLibre(fechaInicio,fechaFinal) && each.isCategory(categoria)]	
 		]
 		
@@ -62,28 +62,18 @@ class ReservaDeAutosService {
 	}
 	
 	
-	def crearReserva(Integer numeroSolicitud,Ubicacion origen,Ubicacion destino,Date inicio,Date fin,Auto automovil,Usuario usu) {
+	def crearReserva(Integer numeroSolicitud,Ubicacion origen,Ubicacion destino,Date inicio,Date fin,Usuario usuario, Auto auto) {
 	    
 	    SessionManager.runInSession([
 	    	
-	    	var List<Auto> autos= new AutoHome().obtenerTodosLosAutos
-	    	var auto= autos.findFirst[au|au.equals(automovil)]
-	    	if (auto==null){
-	    		
-	    		throw new AutoNoExisteException
-	    	}
 	    	
-	    	var List<Usuario>usuarios=new UsuarioHome().obtenerTodosLosUsuarios
-	    	var usuario= usuarios.findFirst[u|u.equals(usu)]
-			if (usuario==null){
-				
-			  throw	new UsuarioNoExisteException
-			}
+
 			
 			var reserva = new Reserva(numeroSolicitud,origen,destino,inicio,fin,auto,usuario);
-			new AutoService().guardarReserva(auto.id,reserva)
-			new UsuarioService().guardarReserva(usuario.id,reserva)
+			reserva.auto = auto ; reserva.usuario = usuario
+			reserva.reservar
 			new ReservaHome().save(reserva)
+			println(auto.reservas.size)
 			reserva
 			
 		]);

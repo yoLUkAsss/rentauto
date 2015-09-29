@@ -49,7 +49,7 @@ class Auto {
 	}
 	
 	def Boolean estaLibre(Date desde, Date hasta){
-		reservas.forall[ !seSuperpone(desde,hasta) ]
+		reservas.forall[ !seSuperpone(desde,hasta)]
 	}
 	
 	def agregarReserva(Reserva reserva){

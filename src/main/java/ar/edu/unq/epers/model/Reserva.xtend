@@ -69,7 +69,9 @@ class Reserva {
 		this.auto.agregarReserva(this)
 		this.usuario.agregarReserva(this)
 	}
+	
 }
+	
 
 
 @Accessors 

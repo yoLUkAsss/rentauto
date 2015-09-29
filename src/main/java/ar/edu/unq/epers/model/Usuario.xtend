@@ -64,9 +64,7 @@ class Usuario implements IUsuario {
 	}
 	
 	override agregarReserva(Reserva unaReserva) {
-		unaReserva.validar
 		reservas.add(unaReserva)
-		reservas.sortInplaceBy[inicio]	
 	}
 	
 	override getReservas() {
