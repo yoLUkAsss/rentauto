@@ -1,14 +1,13 @@
 package ar.edu.unq.epers.services
 
-import ar.edu.unq.epers.homes.SessionManager
 import ar.edu.unq.epers.homes.AutoHome
-import ar.edu.unq.epers.model.Auto
-import ar.edu.unq.epers.model.Ubicacion
-import ar.edu.unq.epers.model.Categoria
 import ar.edu.unq.epers.homes.CategoriaHome
+import ar.edu.unq.epers.homes.SessionManager
 import ar.edu.unq.epers.homes.UbicacionHome
+import ar.edu.unq.epers.model.Auto
+import ar.edu.unq.epers.model.Categoria
 import ar.edu.unq.epers.model.Reserva
-import ar.edu.unq.epers.homes.ReservaHome
+import ar.edu.unq.epers.model.Ubicacion
 
 class AutoService {
 	

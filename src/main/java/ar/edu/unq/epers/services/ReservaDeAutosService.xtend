@@ -1,20 +1,16 @@
 package ar.edu.unq.epers.services
 
-import ar.edu.unq.epers.homes.SessionManager
 import ar.edu.unq.epers.homes.AutoHome
-import java.util.List
-import ar.edu.unq.epers.model.Auto
-import ar.edu.unq.epers.model.Ubicacion
-import java.util.Date
-import ar.edu.unq.epers.model.Reserva
 import ar.edu.unq.epers.homes.ReservaHome
-import ar.edu.unq.epers.model.Usuario
-
+import ar.edu.unq.epers.homes.SessionManager
+import ar.edu.unq.epers.model.Auto
 import ar.edu.unq.epers.model.Categoria
+import ar.edu.unq.epers.model.Reserva
+import ar.edu.unq.epers.model.Ubicacion
+import ar.edu.unq.epers.model.Usuario
 import java.util.ArrayList
-import ar.edu.unq.epers.homes.UsuarioHome
-import ar.edu.unq.epers.excepciones.UsuarioNoExisteException
-import ar.edu.unq.epers.excepciones.AutoNoExisteException
+import java.util.Date
+import java.util.List
 
 class ReservaDeAutosService {
 	
@@ -62,20 +58,12 @@ class ReservaDeAutosService {
 	}
 	
 	
-	def crearReserva(Integer numeroSolicitud,Ubicacion origen,Ubicacion destino,Date inicio,Date fin,Usuario usuario, Auto auto) {
-	    
+	def crearReserva(Integer numeroSolicitud,Ubicacion origen,Ubicacion destino,Date inicio,Date fin,Usuario usuario, Auto auto) {  
 	    SessionManager.runInSession([
-	    	
-	    	
-
-			
 			var reserva = new Reserva(numeroSolicitud,origen,destino,inicio,fin,auto,usuario);
-			reserva.auto = auto ; reserva.usuario = usuario
 			reserva.reservar
 			new ReservaHome().save(reserva)
-			println(auto.reservas.size)
-			reserva
-			
+			reserva			
 		]);
 	}
 

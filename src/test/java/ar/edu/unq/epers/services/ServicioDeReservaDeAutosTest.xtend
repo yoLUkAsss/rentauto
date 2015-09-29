@@ -23,12 +23,12 @@ class ServicioDeReservaDeAutosTest {
 	Categoria familiar;Categoria deportivo;Categoria familiar2;Categoria familiar3;
 	AutoService servicioAutos
 	UsuarioService usuarioService
-	Auto autoFord; Auto autoFerrari; Auto autoFord2; Auto autoPeudgeot; Auto autoRenault;Auto autoFiat;Auto autoFerrari2;
+	Auto autoFord; Auto autoFerrari; Auto autoFord2; Auto autoPeudgeot; Auto autoFiat;Auto autoFerrari2;
 	
 	
 	
 	@Before
-	def void startUp() {
+	def void setUp() {
 		varela = new Ubicacion("Florencio Varela")
 	    laPlata = new Ubicacion("La Plata")
 		lanus = new Ubicacion("Lanus")

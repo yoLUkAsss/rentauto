@@ -16,7 +16,7 @@ class AutoServiceTest {
 	Ubicacion urlin = new Ubicacion("urlingam")
 	 
 	@Before
-	def void startUp(){
+	def void setUp(){
 		new AutoService().crearAuto("fiat","98",2001, "mgx 123",depor,12.3,urlin)
 	}
  

@@ -17,7 +17,7 @@ abstract class Categoria {
 		if (o != null && o instanceof Categoria) {
 			var categoria = o as Categoria;
 			return this.nombre.equals(categoria.nombre);		
-		}
+		} return false
 	}
 	
 	abstract def Double calcularCosto(Auto auto)
