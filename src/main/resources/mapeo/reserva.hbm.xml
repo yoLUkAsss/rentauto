@@ -24,9 +24,9 @@
         <property name="fin" type="java.util.Date">
             <column name="reserva_fin" not-null="true"/>
         </property>
-        
+
         <many-to-one name="auto" class="ar.edu.unq.epers.model.Auto" column="auto_id"/>
-        
+        <many-to-one name="usuario" class="ar.edu.unq.epers.model.Usuario" column="reserva_usuario" cascade="save-update"/>
 	    
 	    <joined-subclass name="ar.edu.unq.epers.model.ReservaEmpresarial" table="reserva_empresarial">
 	    	<key column="reserva_id"/>

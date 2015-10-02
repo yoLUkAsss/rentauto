@@ -35,6 +35,10 @@ class Auto {
 		this.ubicacionParaDia(new Date());
 	}
 	
+	def isCategory(Categoria c){
+		categoria.equals(c);
+	}
+	
 	def ubicacionParaDia(Date unDia){
 		val encontrado = reservas.findLast[ it.fin <= unDia ]
 		if(encontrado != null){
@@ -45,7 +49,7 @@ class Auto {
 	}
 	
 	def Boolean estaLibre(Date desde, Date hasta){
-		reservas.forall[ !seSuperpone(desde,hasta) ]
+		reservas.forall[ !seSuperpone(desde,hasta)]
 	}
 	
 	def agregarReserva(Reserva reserva){
@@ -54,8 +58,19 @@ class Auto {
 		reservas.sortInplaceBy[inicio]
 	}
 	
+	override equals(Object o){
+		if (o != null && o instanceof Auto) {
+			var Auto a = o as Auto
+			return this.patente.equals(a.patente)
+		}
+		return false;
+	}
+	
 	def costoTotal(){
 		return categoria.calcularCosto(this)
 	}
+	
+		
+	
 	
 }

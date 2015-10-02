@@ -1,11 +1,16 @@
 package ar.edu.unq.epers.services
 
-import ar.edu.unq.epers.homes.SessionManager
 import ar.edu.unq.epers.homes.AutoHome
-import java.util.List
+import ar.edu.unq.epers.homes.ReservaHome
+import ar.edu.unq.epers.homes.SessionManager
 import ar.edu.unq.epers.model.Auto
+import ar.edu.unq.epers.model.Categoria
+import ar.edu.unq.epers.model.Reserva
 import ar.edu.unq.epers.model.Ubicacion
+import ar.edu.unq.epers.model.Usuario
+import java.util.ArrayList
 import java.util.Date
+import java.util.List
 
 class ReservaDeAutosService {
 	
@@ -24,5 +29,44 @@ class ReservaDeAutosService {
 		]
 	}
 	
+	/**
+	 * Retorna la cantidad de autos disponibles para cierta ubicacion en un plazo determinado por
+	 * fecha de inicio y fecha fin, con la categoria especificada
+	 * 
+	 * @param ubicacionInicial Indica la ubicacion la cual se necesita
+	 * @param ubicacionFinal Indica la ubicacion en la que se dejaria el auto
+	 * @param fechaInicio Indica la fecha en la que se necesita retirar el auto
+	 * @param fechaFin Indica la fecha en la que se dejaria el auto en la ubicacion final especificada
+	 * @param categoria Indica la cateogira del auto que se quiere
+	 * @return Los autos disponibles segun lo indicado
+	 * 
+	 */
+	def consultaDeReserva(Ubicacion ubicacionInicial, Ubicacion ubicacionFinal, Date fechaInicio, Date fechaFinal, Categoria categoria) {
+		SessionManager.runInSession[|
+			var List<Auto> autosTotales = new AutoHome().obtenerTodosLosAutosDeCategoria(categoria);
+			var List<Auto> autosADevolver = new ArrayList<Auto>();
+			for(Auto each : autosTotales){
+				if( each.ubicacionParaDia(fechaInicio).equals(ubicacionInicial) && each.estaLibre(fechaInicio,fechaFinal)){
+					autosADevolver.add(each);
+				}
+			}
+			return autosADevolver
+			//autosTotales.filter[each | each.ubicacionParaDia(fechaInicio).equals(ubicacionInicial) && each.estaLibre(fechaInicio,fechaFinal) && each.isCategory(categoria)]	
+		]
+		
+		
+	}
+	
+	
+	def crearReserva(Integer numeroSolicitud,Ubicacion origen,Ubicacion destino,Date inicio,Date fin,Usuario usuario, Auto auto) {  
+	    SessionManager.runInSession([
+			var reserva = new Reserva(numeroSolicitud,origen,destino,inicio,fin,auto,usuario);
+			reserva.reservar
+			new ReservaHome().save(reserva)
+			reserva			
+		]);
+	}
+
+    
 	
 }
