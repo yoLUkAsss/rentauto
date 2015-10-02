@@ -36,7 +36,7 @@ class ReservaDeAutosService {
 	 * @param ubicacionInicial Indica la ubicacion la cual se necesita
 	 * @param ubicacionFinal Indica la ubicacion en la que se dejaria el auto
 	 * @param fechaInicio Indica la fecha en la que se necesita retirar el auto
-	 * @param fechaFin Indica la fecha en la que se dejaria el auto en la ubicacion final especificada
+	 * @param fechaFinal Indica la fecha en la que se dejaria el auto en la ubicacion final especificada
 	 * @param categoria Indica la cateogira del auto que se quiere
 	 * @return Los autos disponibles segun lo indicado
 	 * 
@@ -57,7 +57,21 @@ class ReservaDeAutosService {
 		
 	}
 	
-	
+	/**
+	 * Este metodo se encarga de crear y preservar la informacion de una reserva.
+	 * 
+	 * @param numeroSolicitud Nro de reserva
+	 * @param origen Indica la ubicación origen de la reserva
+	 * @param destino Indica la unbicación destino de la reserva
+	 * @param inicio Fecha inicial de la reserva
+	 * @param fin Fecha de finalización de reserva
+	 * @param usuario Indica al usuario que realiza la reserva
+	 * @param auto Indica al vehiculo reservado
+	 * 
+	 * @see ar.edu.unq.epers.model.Auto
+	 * @see ar.edu.unq.epers.model.Ubicacion
+	 * @see ar.edu.unq.epers.model.Usuario 
+	 */
 	def crearReserva(Integer numeroSolicitud,Ubicacion origen,Ubicacion destino,Date inicio,Date fin,Usuario usuario, Auto auto) {  
 	    SessionManager.runInSession([
 			var reserva = new Reserva(numeroSolicitud,origen,destino,inicio,fin,auto,usuario);

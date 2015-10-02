@@ -1,18 +1,20 @@
 package ar.edu.unq.epers.services
 
-import org.junit.Before
-import org.junit.Test
-import org.junit.Assert
-import ar.edu.unq.epers.model.Ubicacion
+import ar.edu.unq.epers.homes.SessionManager
 import ar.edu.unq.epers.model.Auto
 import ar.edu.unq.epers.model.Categoria
-import ar.edu.unq.epers.model.Familiar
 import ar.edu.unq.epers.model.Deportivo
-import ar.edu.unq.epers.homes.AutoHome
-import java.util.Date
-import java.util.Calendar
-import static ar.edu.unq.epers.extensions.DateExtensions.*
+import ar.edu.unq.epers.model.Familiar
+import ar.edu.unq.epers.model.Ubicacion
 import ar.edu.unq.epers.model.Usuario
+import java.util.Calendar
+import java.util.Date
+import org.junit.After
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+
+import static ar.edu.unq.epers.extensions.DateExtensions.*
 
 class ServicioDeReservaDeAutosTest {
 	
@@ -88,6 +90,16 @@ class ServicioDeReservaDeAutosTest {
 		
 		Assert.assertFalse(resultado.contains(autoFord))
 	    
-	    }
+	}
+	
+	/**
+	 * Se encarga de limpiar la bases de datos luego de ejecutar todos los tests
+	 * 
+	 * @author Claudio
+	 */
+	@After
+	def void limpiarYFinalizarConLosTests() {
+		SessionManager::closeSession
+	}
 	
 }

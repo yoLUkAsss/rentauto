@@ -52,6 +52,19 @@ class SessionManager {
 	def static Session getSession() {
 		tlSession.get();
 	}
+	
+	/**
+	 * Este metodo se encarga de cerrar la sesión actual permitiendo adaptar la funcionalidad del <<Create-Drop>>  
+	 * den el archivo de configuracion de Hibernate.
+	 * 
+	 * @author Claudio
+	 */
+	def synchronized static closeSession() {
+		if (sessionFactory != null) {
+			sessionFactory.close
+			sessionFactory = null
+		}
+	}
 
 	
 }

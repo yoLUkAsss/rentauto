@@ -26,6 +26,14 @@ class AutoHome {
 		return autos;
 	}
 	
+	/**
+	 * Obtiene los autos de cierta categoria pedida
+	 * 
+	 * @param categoria Representa a la categoria que debe tener cada auto buscado
+	 * @return Una lista de autos de cierta categoria
+	 * 
+	 * @see ar.edu.unq.epers.model.Categoria
+	 */
 	def List<Auto> obtenerTodosLosAutosDeCategoria(Categoria categoria) {
 		var Query q = SessionManager.getSession().createQuery("from Auto where auto_categoria= :cat")
 		q.setEntity("cat", categoria)
