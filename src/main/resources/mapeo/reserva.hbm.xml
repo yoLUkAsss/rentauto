@@ -8,18 +8,24 @@
             <column name="reserva_id" />
             <generator class="identity" />
         </id>
+        
         <property name="numeroSolicitud" type="java.lang.Integer">
             <column name="reserva_nroSolicitud" not-null="true" unique="true"/>
         </property>
+        
         <many-to-one name="origen" class="ar.edu.unq.epers.model.Ubicacion" column="reserva_origen" cascade="save-update"/>
+        
         <many-to-one name="destino" class="ar.edu.unq.epers.model.Ubicacion" column="reserva_destino" cascade="save-update"/>
+        
         <property name="inicio" type="java.util.Date">
             <column name="reserva_inicio" not-null="true"/>
         </property>
+        
         <property name="fin" type="java.util.Date">
             <column name="reserva_fin" not-null="true"/>
         </property>
-        <many-to-one name="auto" class="ar.edu.unq.epers.model.Auto" column="reserva_auto" cascade="save-update"/>
+        
+        <many-to-one name="auto" class="ar.edu.unq.epers.model.Auto" column="auto_id"/>
         
 	    
 	    <joined-subclass name="ar.edu.unq.epers.model.ReservaEmpresarial" table="reserva_empresarial">
