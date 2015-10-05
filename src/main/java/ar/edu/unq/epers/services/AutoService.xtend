@@ -38,14 +38,6 @@ class AutoService {
 		]);
 	}
 	
-	def guardarReserva(Integer id,Reserva reserva) {
-		SessionManager.runInSession([
-			var auto = new AutoHome().get(id)
-			auto.agregarReserva(reserva)
-			new AutoHome().save(auto)
-			auto
-		]);
-		
-	}
+
 	
 }

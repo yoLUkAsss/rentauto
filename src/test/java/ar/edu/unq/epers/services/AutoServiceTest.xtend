@@ -9,15 +9,26 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import ar.edu.unq.epers.model.Reserva
+import ar.edu.unq.epers.model.Categoria
+import ar.edu.unq.epers.model.Auto
+import org.junit.After
+import ar.edu.unq.epers.homes.SessionManager
 
 class AutoServiceTest {
 	
-	Deportivo depor = new Deportivo
-	Ubicacion urlin = new Ubicacion("urlingam")
+    Categoria	deportivo 
+	Ubicacion   urlin 
+	Ubicacion   quilmes
+	AutoService servicioAutos
+	Auto autoFiat
 	 
 	@Before
 	def void setUp(){
-		new AutoService().crearAuto("fiat","98",2001, "mgx 123",depor,12.3,urlin)
+		deportivo = new Deportivo("Deportivo")
+		urlin = new Ubicacion("urlingam")
+		quilmes= new Ubicacion ("quilmes")
+		servicioAutos = new AutoService
+		autoFiat =servicioAutos.crearAuto("fiat","98",2001, "mgx 123",deportivo,12.3,urlin)
 	}
  
 	@Test
@@ -27,12 +38,24 @@ class AutoServiceTest {
 		Assert.assertEquals("mgx 123", auto.getPatente());
 		Assert.assertEquals("98", auto.getModelo());
 		Assert.assertEquals(2001, auto.getAnio());
-		Assert.assertEquals(depor.id,auto.categoria.id)
+		Assert.assertEquals(deportivo.id,auto.categoria.id)
 		Assert.assertEquals(urlin.id,auto.ubicacionInicial.id)
 	}
 	
+	@Test
+	def modificarUbicacion(){
+		
+		var auto= new AutoService().modificarUbicacion(autoFiat.id,quilmes);
+		Assert.assertEquals(quilmes.id,auto.ubicacionInicial.id)
+		
+		
+	}
 	
 	
+	@After
+	def void limpiarYFinalizarConLosTests() {
+		SessionManager::closeSession
+	}
 	
   
   

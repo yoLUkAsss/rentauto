@@ -14,11 +14,6 @@ class UsuarioHome {
 		SessionManager.getSession().saveOrUpdate(a)
 	}
 	
-	def List<Usuario> obtenerTodosLosUsuarios() {
-		var Query q = SessionManager.getSession().createQuery("from Usuario")
-		var List<Usuario> usuarios = q.list()
-		return usuarios;
-	}
-	
+
 	
 }

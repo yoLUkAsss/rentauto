@@ -22,15 +22,6 @@ class UsuarioService {
 			new UsuarioHome().get(id)
 		])
 	}
-	
-	def guardarReserva(Integer id,Reserva reserva) {
-		SessionManager.runInSession([
-			var usuario = new UsuarioHome().get(id)
-			usuario.agregarReserva(reserva)
-			new UsuarioHome().save(usuario)
-			usuario
-		]);
-		
-	}
+
 	
 }
