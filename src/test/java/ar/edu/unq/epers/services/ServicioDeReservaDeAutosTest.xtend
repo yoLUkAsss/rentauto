@@ -7,8 +7,6 @@ import ar.edu.unq.epers.model.Deportivo
 import ar.edu.unq.epers.model.Familiar
 import ar.edu.unq.epers.model.Ubicacion
 import ar.edu.unq.epers.model.Usuario
-import java.util.Calendar
-import java.util.Date
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -60,25 +58,32 @@ class ServicioDeReservaDeAutosTest {
 	 */
 	@Test
 	def void testVerificarAutosDisponiblesEsCorrecto() {
-		var Date septiembre24 = Calendar.instance.time
-		var resultado = SUT.autosDisponibles(lanus,septiembre24)
+		var fecha = nuevaFecha(2015,03,05)
+	   
+		var resultado = SUT.autosDisponibles(lanus,fecha)
 		
 		Assert.assertEquals(2,resultado)
 	}
-
+    /**
+     * Este test consulta los autos disponibles para una ubicacion en un tiempo determinado
+     * 
+     */
 
 	@Test
 	def void testConsultaDeReserva(){
-		var Date fechaInicio = Calendar.instance.time
-		var Calendar cal = Calendar.instance
-		cal.setTime(fechaInicio)
-		cal.add(Calendar.DATE, 10)
-		var Date fechaFin = cal.time
 		
+		var fechaInicio = nuevaFecha(2015,03,01)
+	    var fechaFin = nuevaFecha(2015,03,05)
 		
 		var resultado = SUT.consultaDeReserva(lanus,berazategui,fechaInicio,fechaFin,deportivo)
 		Assert.assertTrue(resultado.contains(autoFerrari) && resultado.contains(autoPeudgeot))
 	}
+	
+	/**
+	 * Este test verifica que una vez hecha una reserva, el auto ya no esta disponible
+	 * 
+	 * 
+	 */
 
 	@Test
 	def void testCrearReserva(){

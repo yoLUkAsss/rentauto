@@ -30,6 +30,11 @@ class AutoServiceTest {
 		servicioAutos = new AutoService
 		autoFiat =servicioAutos.crearAuto("fiat","98",2001, "mgx 123",deportivo,12.3,urlin)
 	}
+   
+   /**
+    * Este test verifica que los datos del auto guardado son correctos
+    * 
+    */
  
 	@Test
 	def consultar(){
@@ -42,6 +47,10 @@ class AutoServiceTest {
 		Assert.assertEquals(urlin.id,auto.ubicacionInicial.id)
 	}
 	
+	
+	/**
+	 * Este test verifica que cuando cambio la ubicacion del auto,se guarda correctamente 
+	 */
 	@Test
 	def modificarUbicacion(){
 		

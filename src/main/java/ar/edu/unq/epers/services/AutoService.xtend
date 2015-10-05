@@ -10,7 +10,19 @@ import ar.edu.unq.epers.model.Reserva
 import ar.edu.unq.epers.model.Ubicacion
 
 class AutoService {
-	
+	/**
+	 * 
+	 * @param marca Indica la marca del auto
+	 * @param modelo Indica el modelo del auto 
+	 * @param anio Indica el anio del modelo del auto 
+	 * @param patente Indica la patente del auto 
+	 * @param categoria Indica la categoria del auto
+	 * @param costoBase Indica el costo que tiene por dia el auto
+	 * @param ubicacionBase Indica la ubicacion Inicial del auto, la ubicacion es temporal 
+	 * 
+	 * @see ar.edu.unq.epers.model.Auto
+	 * @see ar.edu.unq.epers.model.Categoria
+	 */
 	
 	def consultarAuto(Integer id) {
 		SessionManager.runInSession([
