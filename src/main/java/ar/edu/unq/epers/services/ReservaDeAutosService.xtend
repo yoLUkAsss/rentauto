@@ -51,7 +51,7 @@ class ReservaDeAutosService {
 				}
 			}
 			return autosADevolver
-			//autosTotales.filter[each | each.ubicacionParaDia(fechaInicio).equals(ubicacionInicial) && each.estaLibre(fechaInicio,fechaFinal) && each.isCategory(categoria)]	
+		
 		]
 		
 		

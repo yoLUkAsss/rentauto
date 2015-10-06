@@ -17,6 +17,9 @@ class UsuarioServiceTest {
 		service.crearUsuario("Homero","Simpson","Homerito","amanteDeLaComida@gmail.com","10/05/1991",true,"2345","1234")
 	}
 	
+	/**
+	 * Este test verifica que los datos del usuario guardado son correctos
+	 */
 	
 	@Test
 	def testConsultoSiElUsuarioEsElQueGuarde(){
