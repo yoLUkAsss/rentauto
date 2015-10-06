@@ -1,38 +1,41 @@
 package ar.edu.unq.epers.homes
 
-
-import org.junit.Before
-import org.junit.Test
-
-import static org.mockito.Mockito.*
-import static org.junit.Assert.*
-import ar.edu.unq.epers.services.AutoService
-import ar.edu.unq.epers.model.Deportivo
-import ar.edu.unq.epers.model.Ubicacion
-import org.junit.Assert
 import ar.edu.unq.epers.model.Auto
-import org.mockito.Mock
+import ar.edu.unq.epers.model.Ubicacion
+import ar.edu.unq.epers.model.Deportivo
+import org.junit.Assert
+import org.junit.Test
+import org.junit.After
 
 class AutoHomeTest {
 	
-	AutoHome SUT
-	
-	@Before
-	def void startUp(){
-		SUT = new AutoHome
-	}
-	
 	@Test
 	def testSinAutosCargadosInicialmente(){
-		Assert.assertEquals(0,SUT.obtenerTodosLosAutos.size)
+		SessionManager::runInSession[|
+			Assert.assertEquals(0,(new AutoHome).obtenerTodosLosAutos.size)
+			void
+		]
+		
+		Assert.assertTrue(true)
 	}
 	
 	@Test
 	def testObtenerTodosLosAutosFunciona() {
-		var Auto unAuto = mock(typeof(Auto))
-		SUT.save(unAuto)
-		Assert.assertEquals(1,SUT.obtenerTodosLosAutos.size)
+		SessionManager::runInSession[| 
+			
+			var lanus = new Ubicacion("Lanus")
+			var deportivo = new Deportivo("Deportivo")
+			var Auto unAuto = new Auto("Peugeot","504",1998,"456ART",deportivo,10.000,lanus)
+			(new AutoHome).save(unAuto)
+			Assert.assertEquals(1 ,(new AutoHome).obtenerTodosLosAutos.size)
+			void
+		]
+	
+		Assert.assertTrue(true)
 	}
 	
-	
+	@After
+	def void limpiarYFinalizarConLosTests() {
+		SessionManager::closeSession
+	}
 }

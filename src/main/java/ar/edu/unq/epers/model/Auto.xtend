@@ -4,6 +4,10 @@ import java.util.Date
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 
+
+/**
+ * ALGO
+ */
 @Accessors 
 class Auto {
 	Integer id
