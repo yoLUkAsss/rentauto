@@ -68,7 +68,7 @@ class ServicioDeReservaDeAutosTest {
 
 
 	@Test
-	def void testConsultaDeReserva(){
+	def void testConsultaDeReservaDevuelveAutoPeudgeotLikePokemon(){
 		var Date fechaInicio = Calendar.instance.time
 		var Calendar cal = Calendar.instance
 		cal.setTime(fechaInicio)

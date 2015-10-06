@@ -52,7 +52,7 @@ class UserDao {
 		this.ps = connection.prepareStatement("insert into usuario (nombre,apellido,username,email,fechaNacimiento,validez,codigo,password) values (?,?,?,?,?,?,?,?)");
 		setAtributosPrincipales(ps,u)
 		ps.execute();
-		return null;
+		null
 		])
 	}
 	
