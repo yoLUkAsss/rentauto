@@ -20,7 +20,6 @@ class UsuarioServiceTest {
 	/**
 	 * Este test verifica que los datos del usuario guardado son correctos
 	 */
-	
 	@Test
 	def testConsultoSiElUsuarioEsElQueGuarde(){
 		

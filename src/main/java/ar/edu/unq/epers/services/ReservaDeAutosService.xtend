@@ -12,6 +12,13 @@ import java.util.ArrayList
 import java.util.Date
 import java.util.List
 
+/**
+ * Servicio dedicado para la reserva y obtencion de informacion de las reservas del sistema
+ * 
+ * @author Sandoval Lucas
+ * @author Zaracho Rosali
+ * @author Leutwyler Nicolas
+ */
 class ReservaDeAutosService {
 	
 	/**

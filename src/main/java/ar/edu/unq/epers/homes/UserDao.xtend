@@ -83,7 +83,7 @@ class UserDao {
 	
 	def private Connection getConnection() throws Exception {
 		Class.forName("com.mysql.jdbc.Driver");
-		return DriverManager.getConnection("jdbc:mysql://localhost/rentautoUsuario?user=root&password=root");
+		return DriverManager.getConnection("jdbc:mysql://localhost/rentauto?user=root&password=root");
 	}
 	
 	//El siguiente metodo obtiene a un Usuario de acuerdo a su codigo de validacion,
