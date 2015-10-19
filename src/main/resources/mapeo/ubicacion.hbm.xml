@@ -17,7 +17,7 @@
         	<key column="ubicacion_id"/>
         	<bag name="ubicaciones" cascade="save-update">
         		<key column="ubicacionVirtual_ubicacion"/>
-        		<one-to-many class="ar.edu.unq.epers.model.Ubicacion"/>
+        		<many-to-many class="ar.edu.unq.epers.model.Ubicacion"/>
         	</bag>
         </joined-subclass>
 	</class>

@@ -25,7 +25,7 @@ class ReservaDeAutosService {
 	def autosDisponibles(Ubicacion determinadaUbicacion , Date determinadoDia) {
 		SessionManager.runInSession[|
 			var List<Auto> autosTotales = new AutoHome().obtenerTodosLosAutos
-			autosTotales.filter[each | each.ubicacionParaDia(determinadoDia).equals(determinadaUbicacion)].size
+			autosTotales.filter[each | each.ubicacionParaDia(determinadoDia).equals(determinadaUbicacion) && each.estaLibre(determinadoDia,determinadoDia)].toList
 		]
 	}
 	
@@ -42,20 +42,11 @@ class ReservaDeAutosService {
 	 * 
 	 */
 	def consultaDeReserva(Ubicacion ubicacionInicial, Ubicacion ubicacionFinal, Date fechaInicio, Date fechaFinal, Categoria categoria) {
-		SessionManager.runInSession[|
-			var List<Auto> autosTotales = new AutoHome().obtenerTodosLosAutosDeCategoria(categoria);
-			var List<Auto> autosADevolver = new ArrayList<Auto>();
-			for(Auto each : autosTotales){
-				if( each.ubicacionParaDia(fechaInicio).equals(ubicacionInicial) && each.estaLibre(fechaInicio,fechaFinal)){
-					autosADevolver.add(each);
-				}
-			}
-			return autosADevolver
-		
-		]
-		
-		
-	}
+        SessionManager.runInSession[|
+            var List<Auto> autosTotales = new AutoHome().obtenerTodosLosAutosDeCategoria(categoria);
+            autosTotales.filter[ it.ubicacionParaDia(fechaInicio).equals(ubicacionInicial) && it.estaLibre(fechaInicio,fechaFinal)].toList
+        ]
+    }
 	
 	/**
 	 * Este metodo se encarga de crear y preservar la informacion de una reserva.

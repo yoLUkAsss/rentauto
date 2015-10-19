@@ -34,7 +34,7 @@
         </property>
         <bag name="categoriasAdmitidas" cascade="save-update">
         	<key column="empresa_categoriaAdmitida"/>
-        	<one-to-many class="ar.edu.unq.epers.model.Categoria"/>
+        	<many-to-many class="ar.edu.unq.epers.model.Categoria"/>
         </bag>
     </class>
 </hibernate-mapping>

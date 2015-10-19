@@ -14,20 +14,20 @@
         	</column>
         </property>
         
-        <joined-subclass name="ar.edu.unq.epers.model.Turismo" table="categoria_turismo">
-        	<key column="categoria_id"/>
-        </joined-subclass>
+        <subclass name="ar.edu.unq.epers.model.Turismo">
+        	<property name="categoria_nombre" />
+        </subclass>
         
-        <joined-subclass name="ar.edu.unq.epers.model.Familiar" table="categoria_familiar">
-        	<key column="categoria_id"/>
-        </joined-subclass>
+        <subclass name="ar.edu.unq.epers.model.Familiar">
+        	<property name="categoria_nombre" />
+        </subclass>
         
-        <joined-subclass name="ar.edu.unq.epers.model.Deportivo" table="categoria_deportivo">
-        	<key column="categoria_id"/>
-        </joined-subclass>
+        <subclass name="ar.edu.unq.epers.model.Deportivo">
+        	<property name="categoria_nombre" />
+        </subclass>
         
-        <joined-subclass name="ar.edu.unq.epers.model.TodoTerreno" table="categoria_terreno">
-        	<key column="categoria_id"/>
-        </joined-subclass>
+        <subclass name="ar.edu.unq.epers.model.TodoTerreno">
+        	<property name="categoria_nombre" />
+        </subclass>
     </class>
 </hibernate-mapping>
