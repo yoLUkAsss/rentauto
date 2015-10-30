@@ -4,12 +4,11 @@ import ar.edu.unq.epers.model.Auto
 import ar.edu.unq.epers.model.Ubicacion
 import ar.edu.unq.epers.model.Deportivo
 import org.junit.Assert
-<<<<<<< HEAD
+
 import org.junit.Test
-=======
 import ar.edu.unq.epers.model.Auto
 import org.mockito.Mock
->>>>>>> 015da4b028e104dcc5189738552000e6752e15c1
+
 import org.junit.After
 
 class AutoHomeTest {
