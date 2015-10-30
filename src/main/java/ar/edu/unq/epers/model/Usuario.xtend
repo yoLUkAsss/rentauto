@@ -2,6 +2,8 @@ package ar.edu.unq.epers.model
 
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
+import java.util.Set
+import java.util.HashSet
 
 @Accessors
 class Usuario implements IUsuario {
@@ -15,7 +17,8 @@ class Usuario implements IUsuario {
 	String password;
 	Boolean validez;
 	String codigo;
-	List<Reserva> reservas = newArrayList()
+	List<Reserva> reservas = newArrayList
+	//List<String> mensajes = newArrayList
 	
 	
 	new(){}
@@ -63,13 +66,9 @@ class Usuario implements IUsuario {
 		}
 	}
 	
-	override agregarReserva(Reserva unaReserva) {
-		reservas.add(unaReserva)
-	}
+	override agregarReserva(Reserva unaReserva) { reservas.add(unaReserva) }
 	
-	override getReservas() {
-		
-		reservas
-	}
+	override getReservas() { reservas }
 	
+	def nuevoMensaje(String mensaje) {}
 }
