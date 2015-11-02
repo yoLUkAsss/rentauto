@@ -1,18 +1,14 @@
 package ar.edu.unq.epers.services
 
-import org.junit.Before
-import org.junit.Test
+import ar.edu.unq.epers.homes.SessionManager
+import ar.edu.unq.epers.model.Auto
+import ar.edu.unq.epers.model.Categoria
 import ar.edu.unq.epers.model.Deportivo
 import ar.edu.unq.epers.model.Ubicacion
-import org.junit.Assert
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import ar.edu.unq.epers.model.Reserva
-import ar.edu.unq.epers.model.Categoria
-import ar.edu.unq.epers.model.Auto
 import org.junit.After
-import ar.edu.unq.epers.homes.SessionManager
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
 
 class AutoServiceTest {
 	
