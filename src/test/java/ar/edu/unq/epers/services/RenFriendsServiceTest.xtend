@@ -5,6 +5,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.Assert
 import org.junit.After
+import ar.edu.unq.epers.homes.FriendsHome
+import ar.edu.unq.epers.model.Mail
 
 class RenFriendsServiceTest {
 	
@@ -54,14 +56,31 @@ class RenFriendsServiceTest {
 		SUT.crearAmistad(user2,user4)
 		
 		Assert.assertEquals(SUT.misAmigosDirectos(user2).get(0).nombreDeUsuario,"Pichichu")
+		
 	}
 	
 	@Test
 	def void test_enviar_mail_genera_las_dos_relaciones_esperadas() {
 		SUT.enviarMensajeAAmigo(user4,user3,"Hola como va?")
-		
 		Assert.assertEquals(SUT.mensajesEnviados(user4).size,1)
 		Assert.assertEquals(SUT.mensajesRecibidos(user3).size,1)
+		
+//		(1..40).forEach[
+//			init
+//				SUT.enviarMensajeAAmigo(user4,user3,"Hola como va?")
+//				Assert.assertEquals(SUT.mensajesEnviados(user4).size,1)
+//				Assert.assertEquals(SUT.mensajesRecibidos(user3).size,1)
+//			after
+//		]
+
+//		GraphServiceRunner::run[
+//			var home = new FriendsHome(it)
+//			var nodoUsuario = home.getNodo("Scarra")
+//			println(nodoUsuario.getProperty("nombreDeUsuario"))
+//			var node = home.getNodo(new Mail("","","",""))
+//			println(node.getProperty("body"))
+//			null
+//		]
 	}
 	
 	@Test
@@ -72,6 +91,7 @@ class RenFriendsServiceTest {
 		
 		
 		Assert.assertFalse(SUT.amigosDeAmigos(user3).contains(user1))
+		Assert.assertFalse(SUT.amigosDeAmigos(user3).contains(user3))
 	}
 	
 	@Test
@@ -86,11 +106,11 @@ class RenFriendsServiceTest {
 	
 	@After
 	def void after(){
+		SUT.borrarMails()
 		SUT.eliminarUsuario(user1)
 		SUT.eliminarUsuario(user2)
 		SUT.eliminarUsuario(user3)
 		SUT.eliminarUsuario(user4)
 		SUT.eliminarUsuario(user5)
-		SUT.borrarMails()
 	}
 }

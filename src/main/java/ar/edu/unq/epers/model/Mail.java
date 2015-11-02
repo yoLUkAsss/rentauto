@@ -77,4 +77,11 @@ public class Mail {
 		return false;
 	}
 	
+	@Override
+	public int hashCode(){
+		System.out.println("entre al hc wn");
+		return this.body.hashCode() + this.from.hashCode()
+				+ this.to.hashCode() + this.subject.hashCode();
+	}
+	
 }

@@ -67,6 +67,11 @@ class Usuario implements IUsuario {
 		}
 	}
 	
+	override hashCode(){
+		return this.nombreDeUsuario.hashCode()
+
+	}
+	
 	override agregarReserva(Reserva unaReserva) { reservas.add(unaReserva) }
 	
 	override getReservas() { reservas }

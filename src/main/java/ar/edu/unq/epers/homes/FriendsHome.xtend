@@ -18,7 +18,7 @@ import org.neo4j.kernel.Traversal
 
 class FriendsHome {
 	
-	GraphDatabaseService graph
+	public GraphDatabaseService graph
 
 	new(GraphDatabaseService graph) {
 		this.graph = graph
@@ -72,13 +72,13 @@ class FriendsHome {
 	}
 	
 	def getNodo(Integer codigo) {
-		this.graph.findNodes(personLabel, "codigo", codigo).head
+		this.graph.findNodes(mensajeLabel, "codigo", codigo).head
 	}
 	
 	protected def nodosRelacionados(Node nodo, RelationshipType tipo, Direction direccion) {
-		print("LLEGUE ACA")
-		var values = nodo.getRelationships(tipo, direccion).map[it.getOtherNode(nodo)]
-		print(values)
+
+		nodo.getRelationships(tipo, direccion).map[it.getOtherNode(nodo)]
+
 	}
 	
 	private def toUsuario(Node nodo) {
@@ -120,6 +120,8 @@ class FriendsHome {
 		
 		emisor.createRelationshipTo(mensaje,TipoDeRelacion.EMISOR)
 		receptor.createRelationshipTo(mensaje,TipoDeRelacion.RECEPTOR)
+		
+		println(quienEnvia.nombreDeUsuario + aEnviar.body)
 	}
 	
 	def buscarMensajes(Usuario usuario,TipoDeRelacion tipo) {
@@ -133,7 +135,7 @@ class FriendsHome {
 		var TraversalDescription traversalDescription = this.graph.traversalDescription()
             .depthFirst()
             .relationships(TipoDeRelacion.AMIGO, Direction.OUTGOING)
-            .uniqueness(Uniqueness.NODE_GLOBAL);
+            .evaluator(Evaluators.excludeStartPosition)
 
     	traversalDescription.traverse(node).nodes().map[toUsuario].toSet;
 	}
