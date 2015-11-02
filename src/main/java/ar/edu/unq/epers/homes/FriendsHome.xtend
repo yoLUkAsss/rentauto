@@ -13,6 +13,10 @@ import org.neo4j.graphdb.Node
 import org.neo4j.graphdb.RelationshipType
 import ar.edu.unq.epers.model.Mail
 import ar.edu.unq.epers.excepciones.UsuarioNoExisteException
+import org.neo4j.graphdb.traversal.*;
+import org.neo4j.graphdb.traversal.Uniqueness
+import org.neo4j.kernel.Traversal
+
 
 class FriendsHome {
 	
@@ -39,8 +43,7 @@ class FriendsHome {
 	
 	def eliminarNodo(Usuario aEliminar) {
 		val nodo = this.getNodo(aEliminar)
-		nodo.relationships.forEach[delete]
-		nodo.delete
+		eliminarTodo(nodo)
 	}
 	
 	def crearNodo(Mail nuevoMensaje) {
@@ -55,8 +58,7 @@ class FriendsHome {
 	
 	def eliminarNodo(Mail aEliminar) {
 		val nodo = this.getNodo(aEliminar)
-		nodo.relationships.forEach[delete]
-		nodo.delete
+		eliminarTodo(nodo)
 	}
 	
 	def getNodo(Usuario buscado)throws UsuarioNoExisteException{
@@ -119,11 +121,11 @@ class FriendsHome {
 	
 	def buscarRelacionados(Usuario usuario) {
 		var nodo = this.getNodo(usuario)
-		var nodosBuscados = nodosRelacionados(nodo,TipoDeRelacion.AMIGO,Direction.INCOMING)
+		var nodosBuscados = nodosRelacionados(nodo,TipoDeRelacion.AMIGO,Direction.OUTGOING)
 		nodosBuscados.map[toUsuario].toSet
 	}
 	
-	def envioDeMensaje(Usuario quienEnvia , Mail aEnviar, String usuarioQueRecibe){
+	def envioDeMensaje(Usuario quienEnvia , Mail aEnviar, Usuario usuarioQueRecibe){
 		var emisor = this.getNodo(quienEnvia)
 		var mensaje = crearNodo(aEnviar)
 		var receptor = this.getNodo(usuarioQueRecibe)
@@ -132,5 +134,30 @@ class FriendsHome {
 		receptor.createRelationshipTo(mensaje,TipoDeRelacion.RECEPTOR)
 	}
 	
+	def buscarMensajes(Usuario usuario,TipoDeRelacion tipo) {
+		var nodo = this.getNodo(usuario)
+		var nodosBuscados = nodosRelacionados(nodo,tipo,Direction.BOTH)
+		nodosBuscados.map[toMail].toSet
+	}
+	
+	def connectedComponent(Usuario usuario) {
+		var node = getNodo(usuario)
+		var TraversalDescription traversalDescription = this.graph.traversalDescription()
+            .depthFirst()
+            .relationships(TipoDeRelacion.AMIGO, Direction.OUTGOING)
+            .uniqueness(Uniqueness.NODE_GLOBAL);
+
+    	traversalDescription.traverse(node).nodes().map[toUsuario].toSet;
+	}
+	
+	def borrarMails() {
+		var aborrar= this.graph.findNodes(mensajeLabel).toSet
+		aborrar.forEach[eliminarTodo(it)]
+	}
+	
+	def eliminarTodo(Node nodo){
+		nodo.relationships.forEach[delete]
+		nodo.delete
+	}
 	
 }

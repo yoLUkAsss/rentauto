@@ -1,8 +1,10 @@
 package ar.edu.unq.epers.model;
 
 import org.eclipse.xtend.lib.annotations.Accessors;
+import org.eclipse.xtend.lib.annotations.EqualsHashCode;
 
 @Accessors
+@EqualsHashCode
 public class Mail {
 	
 	private String from;
@@ -63,6 +65,16 @@ public class Mail {
 
 	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o!=null && o instanceof Mail){
+			Mail aux = (Mail) o;
+			return this.body.equals(aux.getBody()) && this.from.equals(aux.getFrom())
+					&& this.to.equals(aux.getTo()) && this.subject.equals(aux.getSubject());
+		}
+		return false;
 	}
 	
 }
