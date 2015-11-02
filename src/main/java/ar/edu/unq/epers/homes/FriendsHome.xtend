@@ -78,7 +78,7 @@ class FriendsHome {
 	}
 	
 	def getNodo(Integer codigo) {
-		this.graph.findNodes(personLabel, "codigo", codigo).head
+		this.graph.findNodes(mensajeLabel, "codigo", codigo).head
 	}
 	
 	protected def nodosRelacionados(Node nodo, RelationshipType tipo, Direction direccion) {
@@ -157,7 +157,7 @@ class FriendsHome {
 	
 	def eliminarTodo(Node nodo){
 		nodo.relationships.forEach[delete]
-		nodo.delete
+		nodo.
 	}
 	
 }

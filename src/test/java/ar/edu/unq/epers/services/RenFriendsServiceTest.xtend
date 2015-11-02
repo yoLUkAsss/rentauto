@@ -98,6 +98,32 @@ class RenFriendsServiceTest {
 		Assert.assertTrue(SUT.amigosDeAmigos(user3).contains(user2)&&SUT.amigosDeAmigos(user3).contains(user4))
 	}
 	
+	
+	
+	@Test
+	def void testconsultoLosAmigosDelUsuario1(){
+		
+		SUT.crearAmistad(user1,user2)
+		SUT.crearAmistad(user1,user4)
+		SUT.crearAmistad(user1,user4)
+        val amigos= SUT.misAmigosDirectos(user1)
+		Assert.assertEquals(3,amigos.length)
+		
+	}
+	@Test(expected = UsuarioNoExisteException)
+	def void testsoloSePuedoAgregarAmigosQueEstanRegistrados(){
+		
+		SUT.crearAmistad(user1,user2)
+		SUT.crearAmistad(user1,user4)
+		SUT.crearAmistad(user1,user6)
+        val amigos= SUT.misAmigosDirectos(user1)
+		Assert.assertEquals(2,amigos.length)
+	
+		
+		
+		
+	}
+	
 	@After
 	def void after(){
 		SUT.eliminarUsuario(user1)
@@ -108,27 +134,4 @@ class RenFriendsServiceTest {
 		SUT.borrarMails()
 
 	}
-	
-	@Test
-	def void consultarAmigosDelUsuario1(){
-		SUT.crearAmistad(user1,user2)
-		SUT.crearAmistad(user1,user4)
-		SUT.crearAmistad(user1,user4)
-        val amigos= SUT.misAmigosDirectos(user1)
-		Assert.assertEquals(3,amigos.length)
-		
-	}
-	@Test(expected = UsuarioNoExisteException)
-	def void soloSePuedoAgregarAmigosQueEstanRegistrados(){
-		
-		SUT.crearAmistad(user1,user2)
-		SUT.crearAmistad(user1,user4)
-		SUT.crearAmistad(user1,user5)
-        val amigos= SUT.misAmigosDirectos(user1)
-		Assert.assertEquals(2,amigos.length)
-		
-		
-		
-	}
-	
 }
