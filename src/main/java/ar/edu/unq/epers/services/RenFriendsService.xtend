@@ -4,6 +4,7 @@ import ar.edu.unq.epers.model.Usuario
 import org.neo4j.graphdb.GraphDatabaseService
 import ar.edu.unq.epers.homes.FriendsHome
 import ar.edu.unq.epers.model.Mail
+import ar.edu.unq.epers.model.TipoDeRelacion
 
 class RenFriendsService {
 	
@@ -28,10 +29,22 @@ class RenFriendsService {
 		]
 	}
 	
-	def enviarMensajeAAmigo(Usuario quienEnvia , String nombreUsuario , String mensajeAEnviar) {
+	def mensajesEnviados(Usuario user){
 		GraphServiceRunner::run[
-			var mail = new Mail(quienEnvia.nombreDeUsuario,nombreUsuario,"Servicio de correo RenFriends",mensajeAEnviar)
-			createHome(it).envioDeMensaje(quienEnvia,mail,nombreUsuario)
+			createHome(it).buscarMensajes(user,TipoDeRelacion.EMISOR)
+		]
+	}
+	
+	def mensajesRecibidos(Usuario user){
+		GraphServiceRunner::run[
+			createHome(it).buscarMensajes(user,TipoDeRelacion.RECEPTOR)
+		]
+	}
+	
+	def enviarMensajeAAmigo(Usuario quienEnvia , Usuario quienRecibe , String mensajeAEnviar) {
+		GraphServiceRunner::run[
+			var mail = new Mail(quienEnvia.nombreDeUsuario,quienRecibe.nombreDeUsuario,"Servicio de correo RenFriends",mensajeAEnviar)
+			createHome(it).envioDeMensaje(quienEnvia,mail,quienRecibe)
 			null
 		]
 	}
@@ -48,12 +61,32 @@ class RenFriendsService {
 		]
 	}
 	
-//	def misAmigosIndirectos() {
-//		GraphServiceRunner::run[
-//			createHome(it).eliminarNodo(persona)
-//			null
-//		]
-//	}
+	def eliminarUsuario(Usuario usuario) {
+		GraphServiceRunner::run[
+			createHome(it).eliminarNodo(usuario)
+			null
+		]
+	}
+	
+	def amigosDeAmigos(Usuario usuario){
+		GraphServiceRunner::run[
+			createHome(it).connectedComponent(usuario)
+		]
+	}
+	
+	def eliminarMail(Mail m){
+		GraphServiceRunner::run[
+			createHome(it).eliminarNodo(m)
+			null
+		]
+	}
+	
+	def borrarMails(){
+		GraphServiceRunner::run[
+			createHome(it).borrarMails()
+			null
+		]
+	}
 	
 	
 }
