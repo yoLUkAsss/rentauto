@@ -159,7 +159,7 @@ class FriendsHome {
 	
 	def eliminarTodo(Node nodo){
 		nodo.relationships.forEach[delete]
-		nodo.
+		nodo.delete
 	}
 	
 }
