@@ -4,8 +4,10 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
 import java.util.Set
 import java.util.HashSet
+import org.eclipse.xtend.lib.annotations.EqualsHashCode
 
 @Accessors
+@EqualsHashCode
 class Usuario implements IUsuario {
 	
 	Integer id 
