@@ -8,12 +8,15 @@ import org.junit.After
 import ar.edu.unq.epers.homes.FriendsHome
 import ar.edu.unq.epers.model.Mail
 
+import ar.edu.unq.epers.excepciones.UsuarioNoExisteException
+
+
 class RenFriendsServiceTest {
 	
 	
 	RenFriendsService SUT
 	
-	Usuario user1; Usuario user2; Usuario user3; Usuario user4;Usuario user5;
+	Usuario user1; Usuario user2; Usuario user3; Usuario user4; Usuario user5;Usuario user6
 	
 	@Before
 	def void init(){
@@ -44,6 +47,14 @@ class RenFriendsServiceTest {
 			apellido = "Motul"
 		]
 		
+		user6 = new Usuario => [
+			nombreDeUsuario = "patata"
+			nombre = "Ricardo"
+			apellido = "Mercado"
+		]
+		
+		
+		
 		SUT.agregarNuevoUsuario(user1)
 		SUT.agregarNuevoUsuario(user2)
 		SUT.agregarNuevoUsuario(user3)
@@ -51,9 +62,12 @@ class RenFriendsServiceTest {
 		SUT.agregarNuevoUsuario(user5)
 	}
 	
+	
+	
 	@Test
 	def void test_al_relacionar_dos_usuarios_se_crea_la_amistad_inversa() {
 		SUT.crearAmistad(user2,user4)
+		
 		
 		Assert.assertEquals(SUT.misAmigosDirectos(user2).get(0).nombreDeUsuario,"Pichichu")
 		
@@ -104,6 +118,32 @@ class RenFriendsServiceTest {
 		Assert.assertTrue(SUT.amigosDeAmigos(user3).contains(user2)&&SUT.amigosDeAmigos(user3).contains(user4))
 	}
 	
+	
+	
+	@Test
+	def void testconsultoLosAmigosDelUsuario1(){
+		
+		SUT.crearAmistad(user1,user2)
+		SUT.crearAmistad(user1,user4)
+		SUT.crearAmistad(user1,user4)
+        val amigos= SUT.misAmigosDirectos(user1)
+		Assert.assertEquals(3,amigos.length)
+		
+	}
+	@Test(expected = UsuarioNoExisteException)
+	def void testsoloSePuedoAgregarAmigosQueEstanRegistrados(){
+		
+		SUT.crearAmistad(user1,user2)
+		SUT.crearAmistad(user1,user4)
+		SUT.crearAmistad(user1,user6)
+        val amigos= SUT.misAmigosDirectos(user1)
+		Assert.assertEquals(2,amigos.length)
+	
+		
+		
+		
+	}
+	
 	@After
 	def void after(){
 		SUT.borrarMails()
@@ -112,5 +152,7 @@ class RenFriendsServiceTest {
 		SUT.eliminarUsuario(user3)
 		SUT.eliminarUsuario(user4)
 		SUT.eliminarUsuario(user5)
+		SUT.borrarMails()
+
 	}
 }

@@ -4,7 +4,9 @@ import ar.edu.unq.epers.model.Usuario
 import org.neo4j.graphdb.GraphDatabaseService
 import ar.edu.unq.epers.homes.FriendsHome
 import ar.edu.unq.epers.model.Mail
+import ar.edu.unq.epers.excepciones.UsuarioNoExisteException
 import ar.edu.unq.epers.model.TipoDeRelacion
+
 
 class RenFriendsService {
 	
@@ -16,7 +18,7 @@ class RenFriendsService {
 		new FriendsHome(graph)
 	}
 	
-	def crearAmistad(Usuario quienAgrega , Usuario quienAgregar) {
+	def crearAmistad(Usuario quienAgrega , Usuario quienAgregar)throws UsuarioNoExisteException {
 		GraphServiceRunner::run[
 			createHome(it).agregarNuevaRelacion(quienAgrega,quienAgregar)
 			null
@@ -68,6 +70,7 @@ class RenFriendsService {
 		]
 	}
 	
+
 	def amigosDeAmigos(Usuario usuario){
 		GraphServiceRunner::run[
 			createHome(it).connectedComponent(usuario)
@@ -86,7 +89,6 @@ class RenFriendsService {
 			createHome(it).borrarMails()
 			null
 		]
-	}
-	
+	}	
 	
 }
