@@ -18,7 +18,6 @@ class Usuario implements IUsuario {
 	Boolean validez;
 	String codigo;
 	List<Reserva> reservas = newArrayList
-	//List<String> mensajes = newArrayList
 	
 	
 	new(){}
@@ -70,5 +69,4 @@ class Usuario implements IUsuario {
 	
 	override getReservas() { reservas }
 	
-	def nuevoMensaje(String mensaje) {}
 }
