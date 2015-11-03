@@ -33,9 +33,10 @@
         <property name="codigo" type="java.lang.String">
         	<column name="usuario_codigo" length="30"/>
         </property>
-        <bag name="reservas" cascade="save-update" inverse="true">
+        <list name="reservas" cascade="save-update" inverse="false">
         	<key column="reserva_usuario"/>
+        	<list-index column="indice"></list-index> 
         	<one-to-many class="ar.edu.unq.epers.model.Reserva"/>
-        </bag>
+        </list>
     </class>
 </hibernate-mapping>        

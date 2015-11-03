@@ -62,7 +62,7 @@ class ServicioDeReservaDeAutosTest {
 
 		var resultado = SUT.autosDisponibles(lanus,fecha)
 
-		Assert.assertEquals(2,resultado)
+		Assert.assertEquals(2,resultado.size)
 	}
     /**
      * Este test consulta los autos disponibles para una ubicacion en un tiempo determinado

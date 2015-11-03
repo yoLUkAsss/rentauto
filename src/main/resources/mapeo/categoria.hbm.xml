@@ -8,26 +8,26 @@
             <column name="categoria_id" />
             <generator class="identity" />
         </id>
-        
+        <discriminator column="categoria_type" type="string"/>
         <property name="nombre" type="string">
         	<column name="categoria_nombre" length="30">
         	</column>
         </property>
         
-        <subclass name="ar.edu.unq.epers.model.Turismo">
-        	<property name="categoria_nombre" />
+        <subclass name="ar.edu.unq.epers.model.Turismo" extends="ar.edu.unq.epers.model.Categoria" discriminator-value="turismo">
+
         </subclass>
         
-        <subclass name="ar.edu.unq.epers.model.Familiar">
-        	<property name="categoria_nombre" />
+        <subclass name="ar.edu.unq.epers.model.Familiar" extends="ar.edu.unq.epers.model.Categoria" discriminator-value="familiar">
+
         </subclass>
         
-        <subclass name="ar.edu.unq.epers.model.Deportivo">
-        	<property name="categoria_nombre" />
+        <subclass name="ar.edu.unq.epers.model.Deportivo" extends="ar.edu.unq.epers.model.Categoria" discriminator-value="deportivo">
+
         </subclass>
         
-        <subclass name="ar.edu.unq.epers.model.TodoTerreno">
-        	<property name="categoria_nombre" />
+        <subclass name="ar.edu.unq.epers.model.TodoTerreno" extends="ar.edu.unq.epers.model.Categoria" discriminator-value="todoterreno">
+
         </subclass>
     </class>
 </hibernate-mapping>

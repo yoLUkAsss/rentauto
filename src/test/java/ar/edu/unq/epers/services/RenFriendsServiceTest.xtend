@@ -125,9 +125,8 @@ class RenFriendsServiceTest {
 		
 		SUT.crearAmistad(user1,user2)
 		SUT.crearAmistad(user1,user4)
-		SUT.crearAmistad(user1,user4)
         val amigos= SUT.misAmigosDirectos(user1)
-		Assert.assertEquals(3,amigos.length)
+		Assert.assertEquals(2,amigos.size)
 		
 	}
 	@Test(expected = UsuarioNoExisteException)

@@ -23,10 +23,12 @@
         
         <many-to-one name="ubicacionInicial" class="ar.edu.unq.epers.model.Ubicacion" column="auto_ubicacionInicial" cascade="save-update"/>		
 
-        <bag name="reservas" cascade="save-update" inverse="true">
+        <list name="reservas" cascade="save-update" inverse="false">
         	<key column="auto_id"/>
+        	<list-index column="indice"></list-index> 
         	<one-to-many class="ar.edu.unq.epers.model.Reserva"/>
-        </bag>
+        </list>
+        
         	
     </class>
 </hibernate-mapping>
