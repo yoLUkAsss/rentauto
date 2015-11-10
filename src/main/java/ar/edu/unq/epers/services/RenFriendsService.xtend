@@ -25,6 +25,11 @@ class RenFriendsService {
 		]
 	}
 	
+	def sonAmigos(Usuario usuarioAVerificar,Usuario uno ) {
+		var amigos = this.misAmigosDirectos(usuarioAVerificar)
+		return amigos.contains(uno)
+	}
+	
 	def misAmigosDirectos(Usuario quienBuscaAmigos) {
 		GraphServiceRunner::run[
 			createHome(it).buscarRelacionados(quienBuscaAmigos)
@@ -89,6 +94,23 @@ class RenFriendsService {
 			createHome(it).borrarMails()
 			null
 		]
+	}
+	
+	def borrarUsuarios(){
+		GraphServiceRunner::run[
+			createHome(it).borrarUsuarios()
+			null
+		]
 	}	
+	
+	def drop() {
+		this.borrarMails
+		this.borrarUsuarios
+	}
+	
+	def estaEnSuCirculoDeAmigosDeAmigos(Usuario usuarioAVerificar, Usuario uno) {
+		var amigosDeAmigos = this.amigosDeAmigos(usuarioAVerificar)
+		return amigosDeAmigos.contains(uno)
+	}
 	
 }

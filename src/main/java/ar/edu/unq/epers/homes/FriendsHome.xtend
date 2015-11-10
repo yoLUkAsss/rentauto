@@ -157,6 +157,11 @@ class FriendsHome {
 		aborrar.forEach[eliminarTodo(it)]
 	}
 	
+	def borrarUsuarios(){
+		var aborrar= this.graph.findNodes(personLabel).toSet
+		aborrar.forEach[eliminarTodo(it)]
+	}
+	
 	def eliminarTodo(Node nodo){
 		nodo.relationships.forEach[delete]
 		nodo.delete
