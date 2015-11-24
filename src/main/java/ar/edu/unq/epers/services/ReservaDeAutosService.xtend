@@ -21,6 +21,9 @@ import java.util.List
  */
 class ReservaDeAutosService {
 	
+	CacheService myCacheService = new CacheService
+	
+	
 	/**
 	 * Retorna la cantidad de autos disponibles para cierta ubicacion en una determinada fecha
 	 * 
@@ -30,10 +33,18 @@ class ReservaDeAutosService {
 	 * 
 	 */
 	def autosDisponibles(Ubicacion determinadaUbicacion , Date determinadoDia) {
-		SessionManager.runInSession[|
-			var List<Auto> autosTotales = new AutoHome().obtenerTodosLosAutos
-			autosTotales.filter[each | each.ubicacionParaDia(determinadoDia).equals(determinadaUbicacion) && each.estaLibre(determinadoDia,determinadoDia)].toList
-		]
+		var res = myCacheService.getCached(determinadoDia,determinadaUbicacion)
+		if(res == null){
+		
+			var autos = SessionManager.runInSession[|
+				var List<Auto> autosTotales = new AutoHome().obtenerTodosLosAutos
+				autosTotales.filter[each | each.ubicacionParaDia(determinadoDia).equals(determinadaUbicacion) && each.estaLibre(determinadoDia,determinadoDia)].toList
+			]
+			myCacheService.cachear(determinadoDia, determinadaUbicacion, autos)
+			autos
+		}else{
+			res.autos
+		}
 	}
 	
 	/**
@@ -71,12 +82,14 @@ class ReservaDeAutosService {
 	 * @see ar.edu.unq.epers.model.Usuario 
 	 */
 	def crearReserva(Integer numeroSolicitud,Ubicacion origen,Ubicacion destino,Date inicio,Date fin,Usuario usuario, Auto auto) {  
-	    SessionManager.runInSession([
+	    var res = SessionManager.runInSession([
 			var reserva = new Reserva(numeroSolicitud,origen,destino,inicio,fin,auto,usuario);
 			reserva.reservar
 			new ReservaHome().save(reserva)
 			reserva			
 		]);
+		myCacheService.deleteCachedCarBetween(inicio,fin,auto)
+		res
 	}
 
     
