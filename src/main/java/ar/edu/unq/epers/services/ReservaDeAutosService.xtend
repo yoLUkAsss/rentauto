@@ -21,11 +21,12 @@ import java.util.List
  */
 class ReservaDeAutosService {
 	
+	//Ahora utiliza un sistema de Cache para obtener datos.
 	CacheService myCacheService = new CacheService
 	
 	
 	/**
-	 * Retorna la cantidad de autos disponibles para cierta ubicacion en una determinada fecha
+	 * Retorna la cantidad de autos disponibles para cierta ubicacion en una determinada fecha.s
 	 * 
 	 * @param determinadaUbicacion Indica la ubicacion la cual se necesita
 	 * @param determinadoDia Indica el dia en el que se necesita la disponibilidad de los autos
@@ -41,10 +42,9 @@ class ReservaDeAutosService {
 				autosTotales.filter[each | each.ubicacionParaDia(determinadoDia).equals(determinadaUbicacion) && each.estaLibre(determinadoDia,determinadoDia)].toList
 			]
 			myCacheService.cachear(determinadoDia, determinadaUbicacion, autos)
-			autos
-		}else{
-			res.autos
-		}
+			return autos
+		}else
+			return res.autos
 	}
 	
 	/**

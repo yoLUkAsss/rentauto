@@ -8,44 +8,77 @@ import com.datastax.driver.mapping.MappingManager
 import ar.edu.unq.epers.model.BusquedaPorDiaReserva
 import java.util.List
 
+
+/**
+ * Servicio de Cache para cachear los autos disponibles dado cierto dia y cierta ubicacion.
+ * El sistema tiene actualizacion ante cambios en la informacion.
+ * 
+ * @author Leutwyler Nicolas
+ * @author Sandoval Lucas
+ * @author Zaracho Rosali
+ * 
+ */
 class CacheService {
 	
 	new () {}
 	
-	
+	/**
+	 * Dado un dia y una ubicacion, ingresa en Cache la lista de autos disponibles correspondientes
+	 * a dichos parametros
+	 * 
+	 * @param dia Dia clave para la info
+	 * @param ubicacion Ubicacion clave para la info
+	 * @param autos Lista de autos a cachear con dicha clave
+	 */
 	def cachear (Date dia , Ubicacion ubicacion , List <Auto> autos) {
+		
+		System.out.println("Hasta aca todo bien")
+		
 		AdminHome.getInstance.runInSession([|
-			
 			var miMapping = new MappingManager(AdminHome.getInstance.session)
 			var res = miMapping.mapper(BusquedaPorDiaReserva).get(dia,ubicacion)
-			if (res == null) {
-				res = new BusquedaPorDiaReserva(dia,ubicacion,autos)
-			} else {
-				for (Auto auto : autos) {
-					res.agregarAuto(auto)
-				}
-			} 
+			if (res == null)
+				res = new BusquedaPorDiaReserva(dia,ubicacion.nombre,autos)
+			else 
+				for (Auto auto : autos) { res.agregarAuto(auto) }
 			miMapping.mapper(BusquedaPorDiaReserva).save(res)
-			null
-		])
+			null])
 	}
 	
+	/**
+	 * Obtiene la informacion de Cache
+	 * 
+	 * @param dia Dia en el que se busca a los autos disponibles
+	 * @param ubicacion Ubicacion en la que se busca a los autos disponibles
+	 * 
+	 * @return La informacion correspondiente a la busqueda por Cache
+	 * 
+	 * @see ar.edu.unq.epers.model.BusquedaPorDiaReserva
+	 */
 	def getCached (Date dia , Ubicacion ubicacion) {
 		AdminHome.getInstance.runInSession([|
-			
 			var miMapping = new MappingManager(AdminHome.getInstance.session)
 			return miMapping.mapper(BusquedaPorDiaReserva).get(dia,ubicacion)
-			
 		])
 	}
 	
+	/**
+	 * Se encarga de actualizar la Cache al recibir la informacion de cambios en el sistema
+	 * 
+	 * @param inicio Fecha de inicio de una reserva nueva
+	 * @param fin Fecha de fin de la reserva
+	 * @param auto Es el auto al que hay que actualizarle sus datos en la cache
+	 */
 	def deleteCachedCarBetween(Date inicio , Date fin , Auto auto) {
 		var res = AdminHome.getInstance.allDataBetweenDates(inicio,fin)
 		for (BusquedaPorDiaReserva elem : res) {
-			if (elem.autos.contains(auto)) {
+			if (elem.autos.contains(auto))
 				elem.borrarAuto(auto)
-			}
-			this.cachear(inicio,elem.ubicacion,elem.autos)
+			this.cachear(inicio,new Ubicacion(elem.ubicacion),elem.autos)
 		}			
+	}
+	
+	def cleanCache(){
+		AdminHome.getInstance.cleanDatabase
 	}
 }
