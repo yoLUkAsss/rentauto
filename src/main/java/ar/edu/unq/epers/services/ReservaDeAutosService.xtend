@@ -11,6 +11,7 @@ import ar.edu.unq.epers.model.Usuario
 import java.util.ArrayList
 import java.util.Date
 import java.util.List
+import ar.edu.unq.epers.cassandra.CachedCar
 
 /**
  * Servicio dedicado para la reserva y obtencion de informacion de las reservas del sistema
@@ -41,7 +42,8 @@ class ReservaDeAutosService {
 				var List<Auto> autosTotales = new AutoHome().obtenerTodosLosAutos
 				autosTotales.filter[each | each.ubicacionParaDia(determinadoDia).equals(determinadaUbicacion) && each.estaLibre(determinadoDia,determinadoDia)].toList
 			]
-			myCacheService.cachear(determinadoDia, determinadaUbicacion, autos)
+			var cachedCar = autos.map[toCachedCar(it)]
+			myCacheService.cachear(determinadoDia, determinadaUbicacion, cachedCar)
 			return autos
 		}else
 			return res.autos
@@ -88,10 +90,13 @@ class ReservaDeAutosService {
 			new ReservaHome().save(reserva)
 			reserva			
 		]);
-		myCacheService.deleteCachedCarBetween(inicio,fin,auto)
+		myCacheService.deleteCachedCarBetween(inicio,fin,toCachedCar(auto))
 		res
 	}
 
+	def private toCachedCar(Auto auto) {
+		new CachedCar(auto.patente,auto.categoria.nombre,auto.marca,auto.modelo)
+	}
     
 	
 }

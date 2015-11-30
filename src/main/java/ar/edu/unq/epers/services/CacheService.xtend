@@ -1,13 +1,14 @@
 package ar.edu.unq.epers.services
 
-import java.util.Date
-import ar.edu.unq.epers.model.Ubicacion
-import ar.edu.unq.epers.model.Auto
+import ar.edu.unq.epers.cassandra.CachedCar
 import ar.edu.unq.epers.homes.AdminHome
-import com.datastax.driver.mapping.MappingManager
+import ar.edu.unq.epers.model.Auto
 import ar.edu.unq.epers.model.BusquedaPorDiaReserva
+import ar.edu.unq.epers.model.Ubicacion
+import com.datastax.driver.mapping.MappingManager
+import java.util.ArrayList
+import java.util.Date
 import java.util.List
-
 
 /**
  * Servicio de Cache para cachear los autos disponibles dado cierto dia y cierta ubicacion.
@@ -30,17 +31,21 @@ class CacheService {
 	 * @param ubicacion Ubicacion clave para la info
 	 * @param autos Lista de autos a cachear con dicha clave
 	 */
-	def cachear (Date dia , Ubicacion ubicacion , List <Auto> autos) {
+	def cachear (Date dia , Ubicacion ubicacion , List <CachedCar> autos) {
 		
 		System.out.println("Hasta aca todo bien")
 		
+		
 		AdminHome.getInstance.runInSession([|
 			var miMapping = new MappingManager(AdminHome.getInstance.session)
-			var res = miMapping.mapper(BusquedaPorDiaReserva).get(dia,ubicacion)
+			var mapper = miMapping.mapper(typeof (BusquedaPorDiaReserva))
+			var res = mapper.get(dia,ubicacion)
 			if (res == null)
 				res = new BusquedaPorDiaReserva(dia,ubicacion.nombre,autos)
 			else 
-				for (Auto auto : autos) { res.agregarAuto(auto) }
+				for (CachedCar auto : autos) {
+					res.agregarAuto(auto)
+				}
 			miMapping.mapper(BusquedaPorDiaReserva).save(res)
 			null])
 	}
@@ -69,7 +74,7 @@ class CacheService {
 	 * @param fin Fecha de fin de la reserva
 	 * @param auto Es el auto al que hay que actualizarle sus datos en la cache
 	 */
-	def deleteCachedCarBetween(Date inicio , Date fin , Auto auto) {
+	def deleteCachedCarBetween(Date inicio , Date fin , CachedCar auto) {
 		var res = AdminHome.getInstance.allDataBetweenDates(inicio,fin)
 		for (BusquedaPorDiaReserva elem : res) {
 			if (elem.autos.contains(auto))
@@ -77,6 +82,8 @@ class CacheService {
 			this.cachear(inicio,new Ubicacion(elem.ubicacion),elem.autos)
 		}			
 	}
+	
+	
 	
 	def cleanCache(){
 		AdminHome.getInstance.cleanDatabase

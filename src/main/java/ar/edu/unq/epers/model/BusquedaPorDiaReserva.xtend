@@ -9,6 +9,7 @@ import com.datastax.driver.mapping.annotations.Table
 import com.datastax.driver.mapping.annotations.Column
 import com.datastax.driver.mapping.annotations.Accessor
 import com.datastax.driver.mapping.annotations.FrozenValue
+import ar.edu.unq.epers.cassandra.CachedCar
 
 /**
  * Objeto Key-Value para el uso del servicio de Cache utilizando la tecnologia de Cassandra (Datastax)
@@ -22,25 +23,29 @@ class BusquedaPorDiaReserva {
 	
 	@Column(name = "dia")
  	@PartitionKey(0)
- 	Date dia
+ 	public Date dia
  	@Column(name = "ubicacion")
 	@PartitionKey(1)
-	String ubicacion
+	public String ubicacion
 	@Column(name = "autos")
-	@FrozenValue
-	List<Auto> autos
+	@Frozen("list<frozen <cachedcar>>")
+	public List<CachedCar> autos
 	
-	new (Date dia, String ubicacion, List<Auto> autos){
+	new(){}
+	
+	new (Date dia, String ubicacion, List<CachedCar> autos){
 		this.dia = dia
 		this.ubicacion = ubicacion
 		this.autos = autos
 	}
 	
-	def agregarAuto(Auto a){
+	def agregarAuto(CachedCar a){
 		this.autos.add(a)
 	}
 	
-	def borrarAuto(Auto a){
+	
+	
+	def borrarAuto(CachedCar a){
 		this.autos.remove(a)
 	}
 }

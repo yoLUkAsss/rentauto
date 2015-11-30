@@ -25,6 +25,7 @@ class AdminHome {
 	
 	
 	new(String schema){
+		startClusterConnection
 		this.createSchema(schema)
 	}
 	
@@ -33,6 +34,7 @@ class AdminHome {
 	}
 	
 	def createSchema(String schema){
+		
 		runInSession([
 			
 			System.out.println("Creating KeySpace")
@@ -40,12 +42,19 @@ class AdminHome {
 			session.execute("CREATE KEYSPACE IF NOT EXISTS " + schema + 
 			" WITH replication = {'class':'SimpleStrategy','replication_factor':3}")
 			
+			session.execute("CREATE TYPE IF NOT EXISTS "+schema+".cachedcar (" +
+			"patente text," +
+			"categoria text," +
+			"marca text," +
+			"modelo text," +
+			");")
+			
 			System.out.println("Creating Table")
 			
 			session.execute("CREATE TABLE IF NOT EXISTS "+schema+".autosCacheados (" +
 			"dia timestamp," +
 			"ubicacion text," +
-			"autos list<text>," +
+			"autos list< frozen <cachedcar>>," +
 			"PRIMARY KEY (dia,ubicacion)" +
 			");")
 			
@@ -69,7 +78,7 @@ class AdminHome {
 	def <T> runInSession(Function0<T> cmd){
 		
 		try {
-			startClusterConnection
+			
 		
 			System.out.println("Iniciating Session... Wait")
 			session = cluster.connect();
@@ -84,8 +93,8 @@ class AdminHome {
 		} finally {
 			if (session != null)
 				session.close();
-			if(cluster != null)
-				closeClusterConnection();
+//			if(cluster != null)
+//				closeClusterConnection();
 		}
 
 	}

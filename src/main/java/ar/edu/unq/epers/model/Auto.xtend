@@ -8,8 +8,9 @@ import org.eclipse.xtend.lib.annotations.Accessors
 /**
  * ALGO
  */
-@Accessors 
+@Accessors
 class Auto {
+	
 	Integer id
 	String marca
 	String modelo
