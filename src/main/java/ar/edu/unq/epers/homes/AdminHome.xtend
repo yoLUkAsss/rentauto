@@ -69,7 +69,7 @@ class AdminHome {
 	
 	def allDataBetweenDates(Date inicio , Date fin) {
 		var values = getInstance.runInSession[|
-			session.execute("SELECT * FROM " + this.schema + " WHERE dia >= " + inicio.toString + "AND dia <= " + fin.toString)
+			session.execute("SELECT * FROM " + this.schema+".autosCacheados" + " WHERE token(dia) >= " + inicio.time + " AND token(dia) <= " + fin.time +" ;")
 		]
 		var mimap = new MappingManager(session).mapper(BusquedaPorDiaReserva)
 		return mimap.map(values).toList
@@ -86,7 +86,6 @@ class AdminHome {
 			if (hayInstance) { session = cluster.connect(schema) }
 			else session = cluster.connect();
 			System.out.println("Session iniciated... OK")
-			//var MappingManager mappingManager = new MappingManager(session);
 			cmd.apply()
 			
 			
@@ -96,8 +95,6 @@ class AdminHome {
 		} finally {
 			if (session != null)
 				session.close();
-//			if(cluster != null)
-//				closeClusterConnection();
 		}
 
 	}
@@ -122,6 +119,7 @@ class AdminHome {
 		runInSession[|
 			session.execute("DROP TABLE "+schema+".autosCacheados")
 			session.execute("DROP KEYSPACE "+schema)
+			instance = new AdminHome(schema)
 		]
 	}
 	

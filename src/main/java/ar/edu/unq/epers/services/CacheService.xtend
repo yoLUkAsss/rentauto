@@ -20,6 +20,8 @@ import java.util.List
  * 
  */
 class CacheService {
+	Date beginPopulated
+	Date endPopulated
 	
 	new () {}
 	
@@ -63,7 +65,7 @@ class CacheService {
 	def getCached (Date dia , Ubicacion ubicacion) {
 		AdminHome.getInstance.runInSession([|
 			var miMapping = new MappingManager(AdminHome.getInstance.session)
-			return miMapping.mapper(BusquedaPorDiaReserva).get(dia,ubicacion)
+			return miMapping.mapper(BusquedaPorDiaReserva).get(ubicacion.nombre , dia)
 		])
 	}
 	
@@ -75,13 +77,44 @@ class CacheService {
 	 * @param auto Es el auto al que hay que actualizarle sus datos en la cache
 	 */
 	def deleteCachedCarBetween(Date inicio , Date fin , CachedCar auto) {
-		var res = AdminHome.getInstance.allDataBetweenDates(inicio,fin)
+		var res = getCachedCarsBetween(inicio,fin)
 		for (BusquedaPorDiaReserva elem : res) {
-//			if (elem.autos.contains(auto))
-//				elem.borrarAuto(auto)
-//			this.cachear(inicio,new Ubicacion(elem.ubicacion),elem.autos)
+			if (elem.autos.contains(auto))
+				elem.borrarAuto(auto)
+			this.cachear(inicio,new Ubicacion(elem.ubicacion),elem.autos)
 		}			
 	}
+	
+	
+	/**
+	 * 
+	 * 
+	 * @param inicio Fecha de inicio de una reserva nueva
+	 * @param fin Fecha de fin de la reserva
+	 * 
+	 * @return los autos disponibles cacheados entre la fecha inicio, y la fecha fin.
+	 */
+	def getCachedCarsBetween(Date inicio , Date fin) {
+		if(isAlreadyCached(fin, inicio))
+		return AdminHome.getInstance.allDataBetweenDates(inicio,fin)
+		else{
+			if (inicio < beginPopulated && fin > endPopulated) {
+				beginPopulated = inicio;
+				endPopulated = fin;
+				
+				
+			}
+			if (fin > endPopulated) {endPopulated = fin;}
+			null
+			
+		}
+	}
+	
+	def isAlreadyCached(Date fin, Date inicio) {
+		fin <= endPopulated && beginPopulated <= inicio
+	}
+	
+	
 	
 	
 	

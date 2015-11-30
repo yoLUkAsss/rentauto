@@ -40,12 +40,12 @@ class BusquedaPorDiaReserva {
 	}
 	
 	def agregarAuto(CachedCar a){
-//		this.autos.add(a)
+		this.autos.add(a)
 	}
 	
 	
 	
 	def borrarAuto(CachedCar a){
-//		this.autos.remove(a)
+		this.autos.remove(a)
 	}
 }

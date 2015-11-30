@@ -25,5 +25,13 @@ class CachedCar {
 		this.modelo = modelo
 	}
 	
+	override equals(Object o){
+		if(o != null && o instanceof CachedCar){
+			var otroCachedCar = o as CachedCar
+			return otroCachedCar.patente == this.patente
+		}
+		false
+	}
+	
 	
 }
