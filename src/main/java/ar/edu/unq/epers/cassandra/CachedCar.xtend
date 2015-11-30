@@ -4,7 +4,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import com.datastax.driver.mapping.annotations.UDT
 import com.datastax.driver.mapping.annotations.Field
 
-@UDT(name="autosPorDia.cachedcars")
+@UDT(name="cachedcar")
 @Accessors
 class CachedCar {
 	@Field(name = "patente")

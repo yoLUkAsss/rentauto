@@ -39,7 +39,7 @@ class CacheService {
 		AdminHome.getInstance.runInSession([|
 			var miMapping = new MappingManager(AdminHome.getInstance.session)
 			var mapper = miMapping.mapper(typeof (BusquedaPorDiaReserva))
-			var res = mapper.get(dia,ubicacion)
+			var res = mapper.get(ubicacion.nombre , dia)
 			if (res == null)
 				res = new BusquedaPorDiaReserva(dia,ubicacion.nombre,autos)
 			else 
@@ -77,9 +77,9 @@ class CacheService {
 	def deleteCachedCarBetween(Date inicio , Date fin , CachedCar auto) {
 		var res = AdminHome.getInstance.allDataBetweenDates(inicio,fin)
 		for (BusquedaPorDiaReserva elem : res) {
-			if (elem.autos.contains(auto))
-				elem.borrarAuto(auto)
-			this.cachear(inicio,new Ubicacion(elem.ubicacion),elem.autos)
+//			if (elem.autos.contains(auto))
+//				elem.borrarAuto(auto)
+//			this.cachear(inicio,new Ubicacion(elem.ubicacion),elem.autos)
 		}			
 	}
 	

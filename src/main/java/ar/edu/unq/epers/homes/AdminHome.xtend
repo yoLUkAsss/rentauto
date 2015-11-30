@@ -17,16 +17,18 @@ import com.datastax.driver.core.Row
 class AdminHome {
 	
 	//Nombre de la tabla
-	public static AdminHome instance = new AdminHome("autosPorDia")
+	public static AdminHome instance = new AdminHome("autospordia")
 	private Cluster cluster
 	private Session session
 	private final String serverIP = "127.0.0.1"
-	private String schema = "autosPorDia"
+	private String schema = "autospordia"
+	private Boolean hayInstance = false
 	
 	
 	new(String schema){
 		startClusterConnection
 		this.createSchema(schema)
+		hayInstance = true
 	}
 	
 	def static getInstance(){
@@ -54,13 +56,13 @@ class AdminHome {
 			session.execute("CREATE TABLE IF NOT EXISTS "+schema+".autosCacheados (" +
 			"dia timestamp," +
 			"ubicacion text," +
-			"autos list< frozen <cachedcar>>," +
+			"autos list<frozen <cachedcar>>," +
 			"PRIMARY KEY (dia,ubicacion)" +
 			");")
 			
 			System.out.println("All Created")
 			
-			null
+			schema
 			
 		])
 	}
@@ -81,7 +83,8 @@ class AdminHome {
 			
 		
 			System.out.println("Iniciating Session... Wait")
-			session = cluster.connect();
+			if (hayInstance) { session = cluster.connect(schema) }
+			else session = cluster.connect();
 			System.out.println("Session iniciated... OK")
 			//var MappingManager mappingManager = new MappingManager(session);
 			cmd.apply()
