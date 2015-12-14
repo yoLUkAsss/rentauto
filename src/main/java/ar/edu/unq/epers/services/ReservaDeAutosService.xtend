@@ -42,8 +42,8 @@ class ReservaDeAutosService {
 				var List<Auto> autosTotales = new AutoHome().obtenerTodosLosAutos
 				autosTotales.filter[each | each.ubicacionParaDia(determinadoDia).equals(determinadaUbicacion) && each.estaLibre(determinadoDia,determinadoDia)].toList
 			]
-			var cachedCars = autos.map[toCachedCar(it)]
-			myCacheService.cachear(determinadoDia, determinadaUbicacion, cachedCars)
+			var cachedCar = autos.map[toCachedCar(it)]
+			myCacheService.cachear(determinadoDia, determinadaUbicacion, cachedCar)
 			return autos
 		}else
 			return res.autos
@@ -62,7 +62,6 @@ class ReservaDeAutosService {
 	 * 
 	 */
 	def consultaDeReserva(Ubicacion ubicacionInicial, Ubicacion ubicacionFinal, Date fechaInicio, Date fechaFinal, Categoria categoria) {
-		
         SessionManager.runInSession[|
             var List<Auto> autosTotales = new AutoHome().obtenerTodosLosAutosDeCategoria(categoria);
             autosTotales.filter[ it.ubicacionParaDia(fechaInicio).equals(ubicacionInicial) && it.estaLibre(fechaInicio,fechaFinal)].toList
